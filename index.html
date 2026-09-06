@@ -3,1564 +3,315 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>BAIMLUAA</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  >
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    /* (semua CSS tetap sama seperti yang kamu kirim, saya tidak ubah) */
     :root {
       --bg: #080908;
       --surface: #101210;
       --surface-hover: #141614;
-
-      --border: rgba(255, 255, 255, 0.08);
-      --border-hover: rgba(255, 255, 255, 0.14);
-
+      --border: rgba(255,255,255,0.08);
+      --border-hover: rgba(255,255,255,0.14);
       --text: #f3f5f0;
       --muted: #747a72;
-
       --green: #a8ff00;
       --green-hover: #b8ff2b;
-
       --red: #ff6874;
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
     body {
-      min-height: 100vh;
-      overflow-x: hidden;
-
-      background:
-        radial-gradient(
-          circle at 75% 35%,
-          rgba(168, 255, 0, 0.035),
-          transparent 28%
-        ),
-        var(--bg);
-
-      color: var(--text);
-      font-family: "Inter", sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    button,
-    input {
-      font: inherit;
-    }
-
-    /* =========================
-       HEADER
-    ========================= */
-
-    header {
-      width: min(1180px, 88%);
-      height: 82px;
-
-      margin: auto;
-
-      display: flex;
-      align-items: center;
-
-      animation: headerIn .7s cubic-bezier(.22,1,.36,1);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-
-      user-select: none;
-    }
-
-    .brand img {
-      width: 38px;
-      height: 38px;
-
-      display: block;
-
-      object-fit: cover;
-
-      border-radius: 11px;
-
-      border: 1px solid rgba(168, 255, 0, .16);
-
-      transition:
-        transform .3s ease,
-        border-color .3s ease;
-    }
-
-    .brand:hover img {
-      transform: rotate(-5deg) scale(1.04);
-      border-color: rgba(168, 255, 0, .35);
-    }
-
-    .brand span {
-      font-size: 13px;
-      font-weight: 700;
-
-      letter-spacing: -.025em;
-    }
-
-    /* =========================
-       MAIN
-    ========================= */
-
-    main {
-      width: min(1180px, 88%);
-      min-height: calc(100vh - 145px);
-
-      margin: auto;
-
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 390px;
-
-      align-items: center;
-
-      gap: 100px;
-    }
-
-    /* =========================
-       RESOLVER
-    ========================= */
-
-    .resolver-area {
-      animation:
-        contentIn .8s cubic-bezier(.22,1,.36,1) both;
-
-      animation-delay: .08s;
-    }
-
-    .title {
-      font-size: clamp(46px, 6vw, 72px);
-
-      line-height: .92;
-
-      letter-spacing: -.075em;
-
-      font-weight: 700;
-    }
-
-    .title span {
-      color: var(--green);
-    }
-
-    .resolver {
-      width: min(650px, 100%);
-
-      margin-top: 38px;
-    }
-
-    .input-wrap {
-      display: flex;
-      align-items: center;
-
-      min-height: 58px;
-
-      padding: 6px;
-
-      background: rgba(16, 18, 16, .92);
-
-      border: 1px solid var(--border);
-
-      border-radius: 15px;
-
-      transition:
-        border-color .25s ease,
-        box-shadow .25s ease,
-        background .25s ease;
-    }
-
-    .input-wrap:hover {
-      border-color: var(--border-hover);
-    }
-
-    .input-wrap:focus-within {
-      background: var(--surface-hover);
-
-      border-color:
-        rgba(168, 255, 0, .28);
-
-      box-shadow:
-        0 0 0 4px
-        rgba(168, 255, 0, .035),
-        0 12px 35px
-        rgba(0, 0, 0, .18);
-    }
-
-    .input-symbol {
-      width: 43px;
-      height: 43px;
-
-      flex-shrink: 0;
-
-      display: grid;
-      place-items: center;
-
-      color: var(--muted);
-
-      font-size: 18px;
-
-      transition:
-        color .25s ease,
-        transform .25s ease;
-    }
-
-    .input-wrap:focus-within .input-symbol {
-      color: var(--green);
-      transform: translateX(1px);
-    }
-
-    #urlInput {
-      flex: 1;
-
-      width: 100%;
-      min-width: 0;
-      height: 43px;
-
-      padding: 0 5px;
-
-      outline: none;
-      border: 0;
-
-      background: transparent;
-
-      color: var(--text);
-
-      font-size: 13px;
-      font-weight: 400;
-    }
-
-    #urlInput::placeholder {
-      color: #565c55;
-      transition: color .2s ease;
-    }
-
-    #urlInput:focus::placeholder {
-      color: #686e67;
-    }
-
-    #bypassBtn {
-      min-width: 82px;
-      height: 43px;
-
-      padding: 0 17px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border: 0;
-      border-radius: 10px;
-
-      background: var(--green);
-      color: #0a0c08;
-
-      font-size: 11px;
-      font-weight: 700;
-
-      cursor: pointer;
-
-      transition:
-        transform .2s cubic-bezier(.22,1,.36,1),
-        background .2s ease,
-        box-shadow .2s ease,
-        opacity .2s ease;
-    }
-
-    #bypassBtn:hover {
-      background: var(--green-hover);
-
-      transform: translateY(-1px);
-
-      box-shadow:
-        0 8px 24px
-        rgba(168, 255, 0, .13);
-    }
-
-    #bypassBtn:active {
-      transform: scale(.96);
-    }
-
-    #bypassBtn:disabled {
-      cursor: wait;
-      opacity: .65;
-      transform: none;
-      box-shadow: none;
-    }
-
-    /* =========================
-       LOADER
-    ========================= */
-
-    .loader {
-      width: 15px;
-      height: 15px;
-
-      display: block;
-
-      border-radius: 50%;
-
-      border:
-        2px solid
-        rgba(10, 12, 8, .22);
-
-      border-top-color:
-        #0a0c08;
-
-      animation:
-        spin .65s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* =========================
-       RESULT
-    ========================= */
-
-    .result {
-      display: none;
-
-      margin-top: 10px;
-
-      padding: 15px;
-
-      background: rgba(16, 18, 16, .94);
-
-      border: 1px solid var(--border);
-
-      border-radius: 15px;
-
-      animation:
-        resultIn .35s cubic-bezier(.22,1,.36,1) both;
-    }
-
-    .result.show {
-      display: block;
-    }
-
-    .result-head {
-      height: 24px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      margin-bottom: 10px;
-    }
-
-    .result-title {
-      color: #dce0da;
-
-      font-size: 11px;
-      font-weight: 600;
-    }
-
-    .badge {
-      padding: 4px 8px;
-
-      border-radius: 999px;
-
-      font-size: 8px;
-      font-weight: 700;
-
-      letter-spacing: .04em;
-      text-transform: uppercase;
-    }
-
-    .badge.success {
-      color: var(--green);
-      background: rgba(168, 255, 0, .07);
-    }
-
-    .badge.error {
-      color: var(--red);
-      background: rgba(255, 104, 116, .08);
-    }
-
-    .result-list {
-      display: flex;
-      flex-direction: column;
-
-      gap: 7px;
-    }
-
-    .result-row {
-      padding: 10px 11px;
-
-      background: rgba(255,255,255,.025);
-
-      border-radius: 9px;
-
-      animation:
-        rowIn .3s ease both;
-    }
-
-    .result-row:nth-child(2) {
-      animation-delay: .03s;
-    }
-
-    .result-row:nth-child(3) {
-      animation-delay: .06s;
-    }
-
-    .result-row:nth-child(4) {
-      animation-delay: .09s;
-    }
-
-    .result-label {
-      display: block;
-
-      margin-bottom: 4px;
-
-      color: #646a63;
-
-      font-size: 8px;
-      font-weight: 500;
-
-      letter-spacing: .07em;
-
-      text-transform: uppercase;
-    }
-
-    .result-value {
-      color: #d8ddd6;
-
-      font-size: 11px;
-
-      line-height: 1.5;
-
-      word-break: break-word;
-    }
-
-    .destination {
-      color: var(--green);
-    }
-
-    /* =========================
-       RESULT ACTIONS
-    ========================= */
-
-    .result-actions {
-      display: flex;
-
-      gap: 7px;
-
-      margin-top: 9px;
-    }
-
-    .result-action {
-      flex: 1;
-
-      height: 36px;
-
-      border: 1px solid var(--border);
-
-      border-radius: 9px;
-
-      background: transparent;
-
-      color: #9ba19a;
-
-      font-size: 10px;
-      font-weight: 600;
-
-      cursor: pointer;
-
-      transition:
-        background .2s ease,
-        color .2s ease,
-        border-color .2s ease,
-        transform .2s ease;
-    }
-
-    .result-action:hover {
-      background: rgba(255,255,255,.035);
-
-      color: white;
-
-      border-color:
-        var(--border-hover);
-
-      transform: translateY(-1px);
-    }
-
-    .result-action.primary {
-      color: #0a0c08;
-      background: var(--green);
-
-      border-color: var(--green);
-    }
-
-    .result-action.primary:hover {
-      background: var(--green-hover);
-
-      border-color: var(--green-hover);
-
-      color: #0a0c08;
-    }
-
-    /* =========================
-       ARTWORK
-    ========================= */
-
-    .visual {
-      position: relative;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      animation:
-        visualIn .9s cubic-bezier(.22,1,.36,1) both;
-
-      animation-delay: .15s;
-    }
-
-    .art {
-      position: relative;
-
-      width: min(100%, 370px);
-
-      aspect-ratio: 4 / 5;
-
-      overflow: hidden;
-
-      border-radius: 22px;
-
-      border: 1px solid var(--border);
-
-      background: #111;
-
-      box-shadow:
-        0 30px 80px
-        rgba(0,0,0,.42);
-
-      transform: rotate(2deg);
-
-      animation:
-        artFloat 6s ease-in-out infinite;
-
-      transition:
-        transform .45s cubic-bezier(.22,1,.36,1),
-        border-color .3s ease;
-    }
-
-    .art:hover {
-      animation-play-state: paused;
-
-      transform:
-        rotate(0deg)
-        translateY(-5px);
-
-      border-color:
-        rgba(168,255,0,.18);
-    }
-
-    .art img {
-      width: 100%;
-      height: 100%;
-
-      display: block;
-
-      object-fit: cover;
-
-      transition:
-        transform .8s cubic-bezier(.22,1,.36,1);
-    }
-
-    .art:hover img {
-      transform: scale(1.025);
-    }
-
-    .art::after {
-      content: "";
-
-      position: absolute;
-
-      inset: 0;
-
-      pointer-events: none;
-
-      background:
-        linear-gradient(
-          180deg,
-          rgba(0,0,0,0) 55%,
-          rgba(0,0,0,.16)
-        );
-    }
-
-    @keyframes artFloat {
-      0%, 100% {
-        transform:
-          translateY(0)
-          rotate(2deg);
-      }
-
-      50% {
-        transform:
-          translateY(-8px)
-          rotate(1deg);
-      }
-    }
-
-    /* =========================
-       SMALL LOGO
-    ========================= */
-
-    .floating-logo {
-      position: absolute;
-
-      left: -18px;
-      bottom: 23px;
-
-      width: 68px;
-      height: 68px;
-
-      padding: 6px;
-
-      border-radius: 17px;
-
-      background:
-        rgba(9, 10, 9, .94);
-
-      border:
-        1px solid
-        rgba(168,255,0,.16);
-
-      box-shadow:
-        0 18px 45px
-        rgba(0,0,0,.42);
-
-      z-index: 2;
-
-      animation:
-        miniFloat 4.5s ease-in-out infinite;
-    }
-
-    .floating-logo img {
-      width: 100%;
-      height: 100%;
-
-      display: block;
-
-      object-fit: cover;
-
-      border-radius: 11px;
-    }
-
-    @keyframes miniFloat {
-      0%, 100% {
-        transform:
-          translateY(0)
-          rotate(-4deg);
-      }
-
-      50% {
-        transform:
-          translateY(-6px)
-          rotate(-2deg);
-      }
-    }
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    footer {
-      width: min(1180px, 88%);
-
-      margin: auto;
-
-      padding: 22px 0;
-
-      color: #444941;
-
-      font-size: 9px;
-    }
-
-    /* =========================
-       ENTRANCE ANIMATIONS
-    ========================= */
-
-    @keyframes headerIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes contentIn {
-      from {
-        opacity: 0;
-        transform:
-          translateY(18px);
-      }
-
-      to {
-        opacity: 1;
-        transform:
-          translateY(0);
-      }
-    }
-
-    @keyframes visualIn {
-      from {
-        opacity: 0;
-        transform:
-          translateX(25px);
-      }
-
-      to {
-        opacity: 1;
-        transform:
-          translateX(0);
-      }
-    }
-
-    @keyframes resultIn {
-      from {
-        opacity: 0;
-        transform:
-          translateY(8px)
-          scale(.99);
-      }
-
-      to {
-        opacity: 1;
-        transform:
-          translateY(0)
-          scale(1);
-      }
-    }
-
-    @keyframes rowIn {
-      from {
-        opacity: 0;
-        transform:
-          translateY(4px);
-      }
-
-      to {
-        opacity: 1;
-        transform:
-          translateY(0);
-      }
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 850px) {
-
-      header {
-        height: 72px;
-      }
-
-      main {
-        min-height: auto;
-
-        grid-template-columns: 1fr;
-
-        gap: 60px;
-
-        padding:
-          65px 0
-          75px;
-      }
-
-      .resolver-area {
-        text-align: center;
-      }
-
-      .resolver {
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .visual {
-        order: 2;
-      }
-
-      .art {
-        width: min(310px, 80vw);
-      }
-
-      .floating-logo {
-        left:
-          calc(50% - 185px);
-      }
-
-      footer {
-        text-align: center;
-      }
-    }
-
-    @media (max-width: 500px) {
-
-      main {
-        width: 88%;
-
-        padding-top: 45px;
-      }
-
-      .title {
-        font-size: 46px;
-      }
-
-      .input-wrap {
-        flex-wrap: wrap;
-
-        padding: 7px;
-      }
-
-      .input-symbol {
-        display: none;
-      }
-
-      #urlInput {
-        flex-basis: 100%;
-
-        height: 43px;
-
-        padding: 0 10px;
-      }
-
-      #bypassBtn {
-        width: 100%;
-      }
-
-      .art {
-        width: min(280px, 78vw);
-      }
-
-      .floating-logo {
-        left:
-          calc(50% - 165px);
-
-        width: 60px;
-        height: 60px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-
-      *,
-      *::before,
-      *::after {
-        animation: none !important;
-        transition: none !important;
-      }
-
-    }
+      min-height:100vh; overflow-x:hidden;
+      background: radial-gradient(circle at 75% 35%, rgba(168,255,0,0.035), transparent 28%), var(--bg);
+      color:var(--text); font-family:"Inter",sans-serif; -webkit-font-smoothing:antialiased;
+    }
+    button,input { font:inherit; }
+    header { width:min(1180px,88%); height:82px; margin:auto; display:flex; align-items:center; animation:headerIn .7s cubic-bezier(.22,1,.36,1); }
+    .brand { display:flex; align-items:center; gap:10px; user-select:none; }
+    .brand img { width:38px; height:38px; display:block; object-fit:cover; border-radius:11px; border:1px solid rgba(168,255,0,.16); transition:transform .3s ease,border-color .3s ease; }
+    .brand:hover img { transform:rotate(-5deg) scale(1.04); border-color:rgba(168,255,0,.35); }
+    .brand span { font-size:13px; font-weight:700; letter-spacing:-.025em; }
+    main { width:min(1180px,88%); min-height:calc(100vh - 145px); margin:auto; display:grid; grid-template-columns:minmax(0,1fr) 390px; align-items:center; gap:100px; }
+    .resolver-area { animation:contentIn .8s cubic-bezier(.22,1,.36,1) both; animation-delay:.08s; }
+    .title { font-size:clamp(46px,6vw,72px); line-height:.92; letter-spacing:-.075em; font-weight:700; }
+    .title span { color:var(--green); }
+    .resolver { width:min(650px,100%); margin-top:38px; }
+    .input-wrap { display:flex; align-items:center; min-height:58px; padding:6px; background:rgba(16,18,16,.92); border:1px solid var(--border); border-radius:15px; transition:border-color .25s ease,box-shadow .25s ease,background .25s ease; }
+    .input-wrap:hover { border-color:var(--border-hover); }
+    .input-wrap:focus-within { background:var(--surface-hover); border-color:rgba(168,255,0,.28); box-shadow:0 0 0 4px rgba(168,255,0,.035),0 12px 35px rgba(0,0,0,.18); }
+    .input-symbol { width:43px; height:43px; flex-shrink:0; display:grid; place-items:center; color:var(--muted); font-size:18px; transition:color .25s ease,transform .25s ease; }
+    .input-wrap:focus-within .input-symbol { color:var(--green); transform:translateX(1px); }
+    #urlInput { flex:1; width:100%; min-width:0; height:43px; padding:0 5px; outline:none; border:0; background:transparent; color:var(--text); font-size:13px; font-weight:400; }
+    #urlInput::placeholder { color:#565c55; transition:color .2s ease; }
+    #urlInput:focus::placeholder { color:#686e67; }
+    #bypassBtn { min-width:82px; height:43px; padding:0 17px; display:flex; align-items:center; justify-content:center; border:0; border-radius:10px; background:var(--green); color:#0a0c08; font-size:11px; font-weight:700; cursor:pointer; transition:transform .2s cubic-bezier(.22,1,.36,1),background .2s ease,box-shadow .2s ease,opacity .2s ease; }
+    #bypassBtn:hover { background:var(--green-hover); transform:translateY(-1px); box-shadow:0 8px 24px rgba(168,255,0,.13); }
+    #bypassBtn:active { transform:scale(.96); }
+    #bypassBtn:disabled { cursor:wait; opacity:.65; transform:none; box-shadow:none; }
+    .loader { width:15px; height:15px; display:block; border-radius:50%; border:2px solid rgba(10,12,8,.22); border-top-color:#0a0c08; animation:spin .65s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .result { display:none; margin-top:10px; padding:15px; background:rgba(16,18,16,.94); border:1px solid var(--border); border-radius:15px; animation:resultIn .35s cubic-bezier(.22,1,.36,1) both; }
+    .result.show { display:block; }
+    .result-head { height:24px; display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+    .result-title { color:#dce0da; font-size:11px; font-weight:600; }
+    .badge { padding:4px 8px; border-radius:999px; font-size:8px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+    .badge.success { color:var(--green); background:rgba(168,255,0,.07); }
+    .badge.error { color:var(--red); background:rgba(255,104,116,.08); }
+    .result-list { display:flex; flex-direction:column; gap:7px; }
+    .result-row { padding:10px 11px; background:rgba(255,255,255,.025); border-radius:9px; animation:rowIn .3s ease both; }
+    .result-row:nth-child(2) { animation-delay:.03s; }
+    .result-row:nth-child(3) { animation-delay:.06s; }
+    .result-row:nth-child(4) { animation-delay:.09s; }
+    .result-label { display:block; margin-bottom:4px; color:#646a63; font-size:8px; font-weight:500; letter-spacing:.07em; text-transform:uppercase; }
+    .result-value { color:#d8ddd6; font-size:11px; line-height:1.5; word-break:break-word; }
+    .destination { color:var(--green); }
+    .result-actions { display:flex; gap:7px; margin-top:9px; }
+    .result-action { flex:1; height:36px; border:1px solid var(--border); border-radius:9px; background:transparent; color:#9ba19a; font-size:10px; font-weight:600; cursor:pointer; transition:background .2s ease,color .2s ease,border-color .2s ease,transform .2s ease; }
+    .result-action:hover { background:rgba(255,255,255,.035); color:white; border-color:var(--border-hover); transform:translateY(-1px); }
+    .result-action.primary { color:#0a0c08; background:var(--green); border-color:var(--green); }
+    .result-action.primary:hover { background:var(--green-hover); border-color:var(--green-hover); color:#0a0c08; }
+    .visual { position:relative; display:flex; justify-content:center; align-items:center; animation:visualIn .9s cubic-bezier(.22,1,.36,1) both; animation-delay:.15s; }
+    .art { position:relative; width:min(100%,370px); aspect-ratio:4/5; overflow:hidden; border-radius:22px; border:1px solid var(--border); background:#111; box-shadow:0 30px 80px rgba(0,0,0,.42); transform:rotate(2deg); animation:artFloat 6s ease-in-out infinite; transition:transform .45s cubic-bezier(.22,1,.36,1),border-color .3s ease; }
+    .art:hover { animation-play-state:paused; transform:rotate(0deg) translateY(-5px); border-color:rgba(168,255,0,.18); }
+    .art img { width:100%; height:100%; display:block; object-fit:cover; transition:transform .8s cubic-bezier(.22,1,.36,1); }
+    .art:hover img { transform:scale(1.025); }
+    .art::after { content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(0,0,0,.16)); }
+    @keyframes artFloat { 0%,100% { transform:translateY(0) rotate(2deg); } 50% { transform:translateY(-8px) rotate(1deg); } }
+    .floating-logo { position:absolute; left:-18px; bottom:23px; width:68px; height:68px; padding:6px; border-radius:17px; background:rgba(9,10,9,.94); border:1px solid rgba(168,255,0,.16); box-shadow:0 18px 45px rgba(0,0,0,.42); z-index:2; animation:miniFloat 4.5s ease-in-out infinite; }
+    .floating-logo img { width:100%; height:100%; display:block; object-fit:cover; border-radius:11px; }
+    @keyframes miniFloat { 0%,100% { transform:translateY(0) rotate(-4deg); } 50% { transform:translateY(-6px) rotate(-2deg); } }
+    footer { width:min(1180px,88%); margin:auto; padding:22px 0; color:#444941; font-size:9px; }
+    @keyframes headerIn { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes contentIn { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes visualIn { from { opacity:0; transform:translateX(25px); } to { opacity:1; transform:translateX(0); } }
+    @keyframes resultIn { from { opacity:0; transform:translateY(8px) scale(.99); } to { opacity:1; transform:translateY(0) scale(1); } }
+    @keyframes rowIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+    @media (max-width:850px) { header { height:72px; } main { min-height:auto; grid-template-columns:1fr; gap:60px; padding:65px 0 75px; } .resolver-area { text-align:center; } .resolver { margin-left:auto; margin-right:auto; } .visual { order:2; } .art { width:min(310px,80vw); } .floating-logo { left:calc(50% - 185px); } footer { text-align:center; } }
+    @media (max-width:500px) { main { width:88%; padding-top:45px; } .title { font-size:46px; } .input-wrap { flex-wrap:wrap; padding:7px; } .input-symbol { display:none; } #urlInput { flex-basis:100%; height:43px; padding:0 10px; } #bypassBtn { width:100%; } .art { width:min(280px,78vw); } .floating-logo { left:calc(50% - 165px); width:60px; height:60px; } }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none !important; transition:none !important; } }
   </style>
 </head>
-
 <body>
 
-  <header>
+<header>
+  <div class="brand">
+    <img src="logo.png" alt="BAIMLUAA">
+    <span>BAIMLUAA</span>
+  </div>
+</header>
 
-    <div class="brand">
+<main>
+  <section class="resolver-area">
+    <h1 class="title">
+      Bypass<br>
+      <span>SFL & Vertise</span>
+    </h1>
 
-      <img
-        src="logo.png"
-        alt="BAIMLUAA"
-      >
+    <div class="resolver">
+      <div class="input-wrap">
+        <div class="input-symbol">↗</div>
+        <input id="urlInput" type="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste link...">
+        <button id="bypassBtn" type="button">
+          <span id="buttonText">Bypass</span>
+        </button>
+      </div>
 
-      <span>BAIMLUAA</span>
-
+      <div class="result" id="resultArea">
+        <div class="result-head">
+          <span class="result-title">Result</span>
+          <span id="statusBadge" class="badge">--</span>
+        </div>
+        <div id="resultContent" class="result-list"></div>
+        <div id="resultActions" class="result-actions" style="display:none">
+          <button id="copyButton" class="result-action" type="button">Copy</button>
+          <button id="openButton" class="result-action primary" type="button">Open</button>
+        </div>
+      </div>
     </div>
+  </section>
 
-  </header>
+  <section class="visual">
+    <div class="art">
+      <img src="artwork.png" alt="">
+    </div>
+    <div class="floating-logo">
+      <img src="logo.png" alt="">
+    </div>
+  </section>
+</main>
 
+<footer>BAIMLUAA</footer>
 
-  <main>
+<script>
+  (() => {
+    const input = document.getElementById("urlInput");
+    const button = document.getElementById("bypassBtn");
+    const buttonText = document.getElementById("buttonText");
+    const result = document.getElementById("resultArea");
+    const resultContent = document.getElementById("resultContent");
+    const badge = document.getElementById("statusBadge");
+    const actions = document.getElementById("resultActions");
+    const copyButton = document.getElementById("copyButton");
+    const openButton = document.getElementById("openButton");
 
-    <section class="resolver-area">
+    let destinationUrl = "";
 
-      <h1 class="title">
-        Bypass<br>
-        <span>SFL.</span>
-      </h1>
+    function escapeHtml(value) {
+      if (value === null || value === undefined || value === "") return "-";
+      const div = document.createElement("div");
+      div.textContent = String(value);
+      return div.innerHTML;
+    }
 
+    function setLoading(state) {
+      button.disabled = state;
+      buttonText.innerHTML = state ? `<span class="loader"></span>` : "Bypass";
+    }
 
-      <div class="resolver">
+    function showResult(data) {
+      const success = data.status === "success";
+      result.classList.remove("show");
+      void result.offsetWidth;
+      result.classList.add("show");
 
-        <div class="input-wrap">
+      badge.className = "badge " + (success ? "success" : "error");
+      badge.textContent = success ? "Success" : "Error";
 
-          <div class="input-symbol">
-            ↗
-          </div>
+      destinationUrl = success ? String(data.destination || "") : "";
 
-          <input
-            id="urlInput"
-            type="url"
-            autocomplete="off"
-            autocapitalize="off"
-            spellcheck="false"
-            placeholder="Paste link..."
-          >
-
-          <button
-            id="bypassBtn"
-            type="button"
-          >
-            <span id="buttonText">
-              Bypass
-            </span>
-          </button>
-
+      let html = `
+        <div class="result-row">
+          <span class="result-label">Provider</span>
+          <div class="result-value">${escapeHtml(data.provider || 'Unknown')}</div>
         </div>
-
-
-        <div
-          class="result"
-          id="resultArea"
-        >
-
-          <div class="result-head">
-
-            <span class="result-title">
-              Result
-            </span>
-
-            <span
-              id="statusBadge"
-              class="badge"
-            >
-              --
-            </span>
-
-          </div>
-
-
-          <div
-            id="resultContent"
-            class="result-list"
-          ></div>
-
-
-          <div
-            id="resultActions"
-            class="result-actions"
-            style="display:none"
-          >
-
-            <button
-              id="copyButton"
-              class="result-action"
-              type="button"
-            >
-              Copy
-            </button>
-
-            <button
-              id="openButton"
-              class="result-action primary"
-              type="button"
-            >
-              Open
-            </button>
-
-          </div>
-
+        <div class="result-row">
+          <span class="result-label">Input</span>
+          <div class="result-value">${escapeHtml(data.input_url)}</div>
         </div>
+      `;
 
-      </div>
-
-    </section>
-
-
-    <section class="visual">
-
-      <div class="art">
-
-        <img
-          src="artwork.png"
-          alt=""
-        >
-
-      </div>
-
-
-      <div class="floating-logo">
-
-        <img
-          src="logo.png"
-          alt=""
-        >
-
-      </div>
-
-    </section>
-
-  </main>
-
-
-  <footer>
-    BAIMLUAA
-  </footer>
-
-
-  <script>
-
-    (() => {
-
-      const input =
-        document.getElementById("urlInput");
-
-      const button =
-        document.getElementById("bypassBtn");
-
-      const buttonText =
-        document.getElementById("buttonText");
-
-      const result =
-        document.getElementById("resultArea");
-
-      const resultContent =
-        document.getElementById("resultContent");
-
-      const badge =
-        document.getElementById("statusBadge");
-
-      const actions =
-        document.getElementById("resultActions");
-
-      const copyButton =
-        document.getElementById("copyButton");
-
-      const openButton =
-        document.getElementById("openButton");
-
-
-      let destinationUrl = "";
-
-
-      /* =========================
-         ESCAPE HTML
-      ========================= */
-
-      function escapeHtml(value) {
-
-        if (
-          value === null ||
-          value === undefined ||
-          value === ""
-        ) {
-          return "-";
-        }
-
-        const div =
-          document.createElement("div");
-
-        div.textContent =
-          String(value);
-
-        return div.innerHTML;
-      }
-
-
-      /* =========================
-         LOADING
-      ========================= */
-
-      function setLoading(state) {
-
-        button.disabled = state;
-
-        if (state) {
-
-          buttonText.innerHTML =
-            `<span class="loader"></span>`;
-
-        } else {
-
-          buttonText.textContent =
-            "Bypass";
-        }
-      }
-
-
-      /* =========================
-         SHOW RESULT
-      ========================= */
-
-      function showResult(data) {
-
-        const success =
-          data.status === "success";
-
-
-        result.classList.remove("show");
-
-        /*
-         * Restart animation.
-         */
-        void result.offsetWidth;
-
-        result.classList.add("show");
-
-
-        badge.className =
-          "badge " +
-          (
-            success
-              ? "success"
-              : "error"
-          );
-
-
-        badge.textContent =
-          success
-            ? "Success"
-            : "Error";
-
-
-        destinationUrl =
-          success
-            ? String(data.destination || "")
-            : "";
-
-
-        let html = `
-
+      // Tampilkan title jika ada (khusus Vertise)
+      if (success && data.title) {
+        html += `
           <div class="result-row">
-
-            <span class="result-label">
-              Input
-            </span>
-
-            <div class="result-value">
-              ${escapeHtml(
-                data.input_url
-              )}
-            </div>
-
+            <span class="result-label">Title</span>
+            <div class="result-value">${escapeHtml(data.title)}</div>
           </div>
-
-          <div class="result-row">
-
-            <span class="result-label">
-              Alias
-            </span>
-
-            <div class="result-value">
-              ${escapeHtml(
-                data.alias
-              )}
-            </div>
-
-          </div>
-
         `;
-
-
-        if (
-          success &&
-          data.destination
-        ) {
-
-          html += `
-
-            <div class="result-row">
-
-              <span class="result-label">
-                Destination
-              </span>
-
-              <div class="result-value destination">
-                ${escapeHtml(
-                  data.destination
-                )}
-              </div>
-
-            </div>
-
-          `;
-
-
-          if (
-            data.duration !== undefined &&
-            data.duration !== null
-          ) {
-
-            html += `
-
-              <div class="result-row">
-
-                <span class="result-label">
-                  Duration
-                </span>
-
-                <div class="result-value">
-                  ${escapeHtml(
-                    data.duration
-                  )}
-                </div>
-
-              </div>
-
-            `;
-          }
-
-
-          if (
-            data.elapsed_ms !== undefined &&
-            data.elapsed_ms !== null
-          ) {
-
-            html += `
-
-              <div class="result-row">
-
-                <span class="result-label">
-                  Elapsed
-                </span>
-
-                <div class="result-value">
-                  ${escapeHtml(
-                    data.elapsed_ms
-                  )} ms
-                </div>
-
-              </div>
-
-            `;
-          }
-
-
-          actions.style.display =
-            "flex";
-
-        } else {
-
-          html += `
-
-            <div class="result-row">
-
-              <span class="result-label">
-                Error
-              </span>
-
-              <div
-                class="result-value"
-                style="color:var(--red)"
-              >
-                ${escapeHtml(
-                  data.message ||
-                  data.error ||
-                  "Request failed."
-                )}
-              </div>
-
-            </div>
-
-          `;
-
-
-          actions.style.display =
-            "none";
-        }
-
-
-        resultContent.innerHTML =
-          html;
       }
 
-
-      /* =========================
-         BYPASS
-      ========================= */
-
-      async function bypass() {
-
-        const url =
-          input.value.trim();
-
-
-        if (!url) {
-
-          input.focus();
-
-          return;
-        }
-
-
-        try {
-
-          new URL(url);
-
-        } catch {
-
-          showResult({
-
-            status: "error",
-
-            input_url: url,
-
-            message:
-              "URL tidak valid."
-
-          });
-
-          return;
-        }
-
-
-        setLoading(true);
-
-        result.classList.remove(
-          "show"
-        );
-
-        actions.style.display =
-          "none";
-
-
-        try {
-
-          const response =
-            await fetch(
-              "/api/bypass",
-              {
-                method: "POST",
-
-                headers: {
-                  "Content-Type":
-                    "application/json"
-                },
-
-                body:
-                  JSON.stringify({
-                    url
-                  })
-              }
-            );
-
-
-          let data;
-
-
-          try {
-
-            data =
-              await response.json();
-
-          } catch {
-
-            data = {
-
-              status: "error",
-
-              input_url: url,
-
-              message:
-                "Response server tidak valid."
-
-            };
-          }
-
-
-          showResult(data);
-
-        } catch (error) {
-
-          showResult({
-
-            status: "error",
-
-            input_url: url,
-
-            message:
-              error.message ||
-              "Gagal terhubung ke server."
-
-          });
-
-        } finally {
-
-          setLoading(false);
-        }
+      // Tampilkan alias jika ada (khusus SFL)
+      if (success && data.alias) {
+        html += `
+          <div class="result-row">
+            <span class="result-label">Alias</span>
+            <div class="result-value">${escapeHtml(data.alias)}</div>
+          </div>
+        `;
       }
 
-
-      /* =========================
-         COPY
-      ========================= */
-
-      copyButton.addEventListener(
-        "click",
-        async () => {
-
-          if (!destinationUrl) {
-            return;
-          }
-
-
-          try {
-
-            await navigator.clipboard.writeText(
-              destinationUrl
-            );
-
-
-            const oldText =
-              copyButton.textContent;
-
-
-            copyButton.textContent =
-              "Copied";
-
-
-            setTimeout(() => {
-
-              copyButton.textContent =
-                oldText;
-
-            }, 1200);
-
-          } catch {
-
-            /*
-             * Fallback untuk browser
-             * yang tidak mengizinkan
-             * Clipboard API.
-             */
-
-            const temp =
-              document.createElement(
-                "textarea"
-              );
-
-            temp.value =
-              destinationUrl;
-
-            document.body.appendChild(
-              temp
-            );
-
-            temp.select();
-
-            document.execCommand(
-              "copy"
-            );
-
-            temp.remove();
-
-
-            copyButton.textContent =
-              "Copied";
-
-
-            setTimeout(() => {
-
-              copyButton.textContent =
-                "Copy";
-
-            }, 1200);
-          }
+      if (success && data.destination) {
+        html += `
+          <div class="result-row">
+            <span class="result-label">Destination</span>
+            <div class="result-value destination">${escapeHtml(data.destination)}</div>
+          </div>
+        `;
+        if (data.duration !== undefined && data.duration !== null) {
+          html += `
+            <div class="result-row">
+              <span class="result-label">Duration</span>
+              <div class="result-value">${escapeHtml(data.duration)}</div>
+            </div>
+          `;
         }
-      );
-
-
-      /* =========================
-         OPEN
-      ========================= */
-
-      openButton.addEventListener(
-        "click",
-        () => {
-
-          if (!destinationUrl) {
-            return;
-          }
-
-
-          try {
-
-            const safeUrl =
-              new URL(destinationUrl);
-
-
-            if (
-              safeUrl.protocol !== "http:" &&
-              safeUrl.protocol !== "https:"
-            ) {
-              return;
-            }
-
-
-            window.open(
-              safeUrl.href,
-              "_blank",
-              "noopener,noreferrer"
-            );
-
-          } catch {
-
-            return;
-          }
+        if (data.elapsed_ms !== undefined && data.elapsed_ms !== null) {
+          html += `
+            <div class="result-row">
+              <span class="result-label">Elapsed</span>
+              <div class="result-value">${escapeHtml(data.elapsed_ms)} ms</div>
+            </div>
+          `;
         }
-      );
+        actions.style.display = "flex";
+      } else {
+        html += `
+          <div class="result-row">
+            <span class="result-label">Error</span>
+            <div class="result-value" style="color:var(--red)">${escapeHtml(data.message || data.error || "Request failed.")}</div>
+          </div>
+        `;
+        actions.style.display = "none";
+      }
 
+      resultContent.innerHTML = html;
+    }
 
-      /* =========================
-         ENTER
-      ========================= */
+    async function bypass() {
+      const url = input.value.trim();
+      if (!url) { input.focus(); return; }
+      try { new URL(url); } catch {
+        showResult({ status: "error", input_url: url, message: "URL tidak valid." });
+        return;
+      }
 
-      input.addEventListener(
-        "keydown",
-        event => {
+      setLoading(true);
+      result.classList.remove("show");
+      actions.style.display = "none";
 
-          if (
-            event.key === "Enter"
-          ) {
-
-            event.preventDefault();
-
-            bypass();
-          }
+      try {
+        const response = await fetch("/api/bypass", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url })
+        });
+        let data;
+        try { data = await response.json(); } catch {
+          data = { status: "error", input_url: url, message: "Response server tidak valid." };
         }
-      );
+        showResult(data);
+      } catch (error) {
+        showResult({ status: "error", input_url: url, message: error.message || "Gagal terhubung ke server." });
+      } finally {
+        setLoading(false);
+      }
+    }
 
+    copyButton.addEventListener("click", async () => {
+      if (!destinationUrl) return;
+      try {
+        await navigator.clipboard.writeText(destinationUrl);
+        const oldText = copyButton.textContent;
+        copyButton.textContent = "Copied";
+        setTimeout(() => { copyButton.textContent = oldText; }, 1200);
+      } catch {
+        const temp = document.createElement("textarea");
+        temp.value = destinationUrl;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        temp.remove();
+        copyButton.textContent = "Copied";
+        setTimeout(() => { copyButton.textContent = "Copy"; }, 1200);
+      }
+    });
 
-      /* =========================
-         BUTTON
-      ========================= */
+    openButton.addEventListener("click", () => {
+      if (!destinationUrl) return;
+      try {
+        const safeUrl = new URL(destinationUrl);
+        if (safeUrl.protocol !== "http:" && safeUrl.protocol !== "https:") return;
+        window.open(safeUrl.href, "_blank", "noopener,noreferrer");
+      } catch {}
+    });
 
-      button.addEventListener(
-        "click",
-        bypass
-      );
-
-    })();
-
-  </script>
+    input.addEventListener("keydown", event => { if (event.key === "Enter") { event.preventDefault(); bypass(); } });
+    button.addEventListener("click", bypass);
+  })();
+</script>
 
 </body>
 </html>
