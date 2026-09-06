@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bypass SFL</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: 2rem auto; padding: 0 1rem; }
+    input, button { padding: 0.5rem; font-size: 1rem; }
+    input { width: 70%; }
+    button { width: 25%; background: #0070f3; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #0051a2; }
+    pre { background: #f4f4f4; padding: 1rem; border-radius: 4px; overflow-x: auto; white-space: pre-wrap; }
+    .loading { opacity: 0.6; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <h1>🔗 Bypass SFL / Khaddavi</h1>
+  <div>
+    <input type="text" id="urlInput" placeholder="Masukkan URL SFL (contoh: https://sfl.gl/...)" value="https://sfl.gl/dyktx" />
+    <button id="bypassBtn">Bypass!</button>
+  </div>
+  <div id="result">
+    <p>Hasil akan muncul di sini...</p>
+  </div>
+
+  <script>
+    const urlInput = document.getElementById('urlInput');
+    const bypassBtn = document.getElementById('bypassBtn');
+    const resultDiv = document.getElementById('result');
+
+    bypassBtn.addEventListener('click', async () => {
+      const url = urlInput.value.trim();
+      if (!url) return alert('Masukkan URL dulu!');
+
+      bypassBtn.classList.add('loading');
+      bypassBtn.textContent = '⏳ Memproses...';
+      resultDiv.innerHTML = '<p>⏳ Menunggu response dari server...</p>';
+
+      try {
+        const res = await fetch('/api/bypass', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url })
+        });
+        const data = await res.json();
+        resultDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+      } catch (err) {
+        resultDiv.innerHTML = `<p style="color:red;">❌ Error: ${err.message}</p>`;
+      } finally {
+        bypassBtn.classList.remove('loading');
+        bypassBtn.textContent = 'Bypass!';
+      }
+    });
+  </script>
+</body>
+</html>
