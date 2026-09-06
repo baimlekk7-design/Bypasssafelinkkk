@@ -3,366 +3,1778 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bypass SFL — Premium</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet" />
+
+  <title>Bypass SFL — Fast Link Resolver</title>
+  <meta
+    name="description"
+    content="Fast and clean SFL link resolver."
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
   <style>
+    :root {
+      --bg: #060708;
+      --bg-soft: #0b0d0f;
+      --panel: rgba(15, 17, 20, .78);
+      --panel-solid: #101316;
+
+      --border: rgba(255,255,255,.075);
+      --border-hover: rgba(255,255,255,.14);
+
+      --text: #f4f5f7;
+      --muted: #858b94;
+      --muted-2: #5d636b;
+
+      --accent: #8cff66;
+      --accent-soft: rgba(140,255,102,.10);
+      --accent-glow: rgba(140,255,102,.20);
+
+      --danger: #ff6577;
+
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+
+      --shadow:
+        0 30px 80px rgba(0,0,0,.45),
+        0 10px 30px rgba(0,0,0,.25);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, sans-serif;
+      overflow-x: hidden;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+    }
+
+    /* =========================
+       BACKGROUND
+    ========================== */
+
+    .background {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(140,255,102,.09),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at 0% 50%,
+          rgba(90,120,255,.035),
+          transparent 30%
+        ),
+        var(--bg);
+    }
+
+    .grid {
+      position: absolute;
+      inset: 0;
+
+      background-image:
+        linear-gradient(
+          rgba(255,255,255,.025) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,.025) 1px,
+          transparent 1px
+        );
+
+      background-size: 55px 55px;
+
+      mask-image:
+        linear-gradient(
+          to bottom,
+          black,
+          transparent 80%
+        );
+
+      opacity: .45;
+    }
+
+    .orb {
+      position: absolute;
+      width: 420px;
+      height: 420px;
+
+      border-radius: 50%;
+      filter: blur(100px);
+
+      opacity: .07;
+      background: var(--accent);
+
+      animation: floatOrb 12s ease-in-out infinite;
+    }
+
+    .orb.one {
+      top: 10%;
+      left: -180px;
+    }
+
+    .orb.two {
+      right: -200px;
+      top: 45%;
+      animation-delay: -5s;
+      background: #5872ff;
+    }
+
+    @keyframes floatOrb {
+      0%,100% {
+        transform: translate3d(0,0,0);
+      }
+
+      50% {
+        transform: translate3d(0,40px,0);
+      }
+    }
+
+    /* =========================
+       NAVBAR
+    ========================== */
+
+    .navbar {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+
+      height: 76px;
+
       display: flex;
       align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle at 20% 20%, #0f0c29, #302b63, #24243e);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      padding: 1.5rem;
-      color: #fff;
+      justify-content: space-between;
     }
 
-    .card {
-      max-width: 720px;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 2.5rem;
-      padding: 2.5rem 2rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-      transition: transform 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-    }
-
-    .header {
+    .brand {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 2.5rem;
+      gap: 11px;
+
+      text-decoration: none;
+      color: var(--text);
     }
 
-    .header-icon {
-      width: 48px;
-      height: 48px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-radius: 16px;
+    .brand-mark {
+      width: 35px;
+      height: 35px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 10px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(140,255,102,.2),
+          rgba(140,255,102,.03)
+        );
+
+      border: 1px solid rgba(140,255,102,.2);
+
+      color: var(--accent);
+
+      box-shadow:
+        inset 0 0 20px rgba(140,255,102,.05),
+        0 0 25px rgba(140,255,102,.06);
+
+      font-size: 15px;
+    }
+
+    .brand-name {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+    }
+
+    .brand-name span {
+      color: var(--accent);
+    }
+
+    .nav-right {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      box-shadow: 0 10px 20px -5px rgba(102, 126, 234, 0.4);
+      gap: 20px;
     }
 
-    .header-text h1 {
-      font-size: 1.8rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      background: linear-gradient(to right, #f6f9fc, #c7d2fe);
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      color: var(--muted);
+
+      font-size: 12px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: var(--accent);
+
+      box-shadow:
+        0 0 0 4px rgba(140,255,102,.08),
+        0 0 15px var(--accent);
+
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: .4;
+      }
+    }
+
+    /* =========================
+       MAIN
+    ========================== */
+
+    main {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding:
+        90px 0
+        70px;
+
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 7px 11px;
+
+      border-radius: 999px;
+
+      background: rgba(255,255,255,.025);
+      border: 1px solid var(--border);
+
+      color: #aeb4bc;
+
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+
+      letter-spacing: .08em;
+      text-transform: uppercase;
+
+      animation: fadeUp .7s ease both;
+    }
+
+    .eyebrow i {
+      width: 5px;
+      height: 5px;
+
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .hero h1 {
+      max-width: 850px;
+
+      margin:
+        25px auto 0;
+
+      font-size:
+        clamp(42px, 7vw, 76px);
+
+      line-height: .98;
+
+      letter-spacing: -.065em;
+      font-weight: 800;
+
+      animation:
+        fadeUp .8s .08s ease both;
+    }
+
+    .hero h1 span {
+      color: transparent;
+
+      background:
+        linear-gradient(
+          110deg,
+          #fff 0%,
+          #fff 35%,
+          #8cff66 75%,
+          #d5ffc8 100%
+        );
+
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
       background-clip: text;
+
+      background-size: 200% auto;
+
+      animation:
+        shine 5s linear infinite;
     }
 
-    .header-text p {
-      font-size: 0.9rem;
-      opacity: 0.6;
-      margin-top: 0.1rem;
-      letter-spacing: 0.02em;
+    @keyframes shine {
+      to {
+        background-position: 200% center;
+      }
     }
 
-    .input-group {
+    .hero-description {
+      max-width: 590px;
+
+      margin: 25px auto 0;
+
+      color: var(--muted);
+
+      font-size: 15px;
+      line-height: 1.7;
+
+      animation:
+        fadeUp .8s .16s ease both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* =========================
+       TOOL
+    ========================== */
+
+    .tool-shell {
+      position: relative;
+
+      max-width: 850px;
+      margin: 0 auto;
+
+      animation:
+        fadeUp .8s .24s ease both;
+    }
+
+    .tool-shell::before {
+      content: "";
+
+      position: absolute;
+
+      inset: -1px;
+
+      border-radius: var(--radius-xl);
+
+      background:
+        linear-gradient(
+          120deg,
+          rgba(140,255,102,.16),
+          transparent 25%,
+          transparent 75%,
+          rgba(140,255,102,.07)
+        );
+
+      opacity: .7;
+
+      pointer-events: none;
+    }
+
+    .tool {
+      position: relative;
+
+      padding: 9px;
+
+      border-radius: var(--radius-xl);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.055),
+          rgba(255,255,255,.018)
+        );
+
+      border: 1px solid var(--border);
+
+      box-shadow: var(--shadow);
+
+      backdrop-filter: blur(25px);
+    }
+
+    .input-row {
       display: flex;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
+      align-items: center;
+
+      min-height: 68px;
+
+      padding: 7px 7px 7px 20px;
+
+      gap: 10px;
+
+      border-radius: 20px;
+
+      background:
+        rgba(0,0,0,.34);
+
+      border: 1px solid rgba(255,255,255,.045);
+
+      transition: .25s ease;
     }
 
-    .input-group input {
+    .input-row:focus-within {
+      border-color:
+        rgba(140,255,102,.3);
+
+      box-shadow:
+        0 0 0 4px rgba(140,255,102,.045),
+        0 0 35px rgba(140,255,102,.04);
+    }
+
+    .link-icon {
+      width: 34px;
+      height: 34px;
+
+      flex: 0 0 34px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 10px;
+
+      background: rgba(255,255,255,.035);
+
+      color: var(--muted);
+
+      font-size: 14px;
+    }
+
+    #urlInput {
       flex: 1;
-      min-width: 200px;
-      padding: 0.9rem 1.2rem;
-      border-radius: 60px;
-      border: none;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #fff;
-      font-size: 1rem;
-      font-family: inherit;
+
+      min-width: 0;
+
+      height: 50px;
+
       outline: none;
-      transition: all 0.25s ease;
-      backdrop-filter: blur(8px);
-    }
-
-    .input-group input::placeholder {
-      color: rgba(255, 255, 255, 0.3);
-    }
-
-    .input-group input:focus {
-      border-color: #667eea;
-      background: rgba(255, 255, 255, 0.08);
-      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
-    }
-
-    .input-group button {
-      padding: 0.9rem 2.2rem;
-      border-radius: 60px;
       border: none;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: #fff;
-      font-weight: 600;
-      font-size: 1rem;
-      font-family: inherit;
+
+      background: transparent;
+
+      color: var(--text);
+
+      font-size: 14px;
+    }
+
+    #urlInput::placeholder {
+      color: #555b63;
+    }
+
+    .bypass-btn {
+      height: 52px;
+
+      padding:
+        0 25px;
+
+      border-radius: 15px;
+
       cursor: pointer;
-      transition: all 0.25s ease;
-      box-shadow: 0 10px 20px -8px rgba(102, 126, 234, 0.3);
-      white-space: nowrap;
-      letter-spacing: 0.01em;
+
+      color: #071006;
+
+      background:
+        linear-gradient(
+          135deg,
+          #a8ff8b,
+          #74ed52
+        );
+
+      font-weight: 800;
+      font-size: 13px;
+
+      box-shadow:
+        0 7px 25px rgba(140,255,102,.14);
+
+      transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        filter .2s ease;
     }
 
-    .input-group button:hover {
-      transform: scale(1.02);
-      box-shadow: 0 15px 30px -8px rgba(102, 126, 234, 0.5);
+    .bypass-btn:hover {
+      transform: translateY(-1px);
+
+      box-shadow:
+        0 12px 35px rgba(140,255,102,.24);
+
+      filter: brightness(1.04);
     }
 
-    .input-group button:active {
-      transform: scale(0.97);
+    .bypass-btn:active {
+      transform: scale(.97);
     }
 
-    .input-group button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
+    .bypass-btn:disabled {
+      opacity: .55;
+      cursor: wait;
       transform: none;
     }
 
-    .result-area {
-      margin-top: 2rem;
-      min-height: 100px;
-      background: rgba(0, 0, 0, 0.25);
-      border-radius: 20px;
-      padding: 1.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(8px);
-      transition: all 0.3s ease;
+    .tool-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding:
+        11px 12px 3px;
+
+      color: var(--muted-2);
+
+      font-size: 10px;
+      font-family: "DM Mono", monospace;
     }
 
-    .result-area .placeholder {
-      opacity: 0.4;
-      font-size: 0.95rem;
+    .tool-footer span:last-child {
+      color: #69706a;
+    }
+
+    /* =========================
+       RESULT
+    ========================== */
+
+    .result-area {
+      display: none;
+
+      margin-top: 16px;
+
+      padding: 20px;
+
+      text-align: left;
+
+      border-radius: 20px;
+
+      background:
+        rgba(0,0,0,.28);
+
+      border: 1px solid var(--border);
+
+      animation:
+        resultIn .4s ease both;
+    }
+
+    .result-area.visible {
+      display: block;
+    }
+
+    @keyframes resultIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result-head {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      min-height: 60px;
+      justify-content: space-between;
+
+      margin-bottom: 18px;
     }
 
-    .result-area .placeholder i {
-      font-style: normal;
-      font-size: 1.2rem;
+    .result-title {
+      font-size: 12px;
+      font-weight: 700;
     }
 
-    .result-content {
-      font-size: 0.9rem;
-      line-height: 1.6;
-      word-break: break-all;
-    }
+    .badge {
+      padding: 5px 9px;
 
-    .result-content .label {
-      opacity: 0.5;
-      font-size: 0.75rem;
+      border-radius: 999px;
+
+      font-size: 9px;
+      font-weight: 700;
+
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: .08em;
     }
 
-    .result-content .value {
-      font-weight: 500;
-      background: rgba(255, 255, 255, 0.03);
-      padding: 0.2rem 0.6rem;
-      border-radius: 30px;
-      display: inline-block;
-      margin-top: 0.2rem;
+    .badge.success {
+      color: var(--accent);
+      background: rgba(140,255,102,.08);
+      border: 1px solid rgba(140,255,102,.12);
     }
 
-    .result-content .destination {
-      color: #a78bfa;
+    .badge.error {
+      color: var(--danger);
+      background: rgba(255,101,119,.08);
+      border: 1px solid rgba(255,101,119,.12);
+    }
+
+    .result-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0,1fr));
+
+      gap: 10px;
+    }
+
+    .result-item {
+      padding: 13px;
+
+      border-radius: 13px;
+
+      background:
+        rgba(255,255,255,.025);
+
+      border: 1px solid rgba(255,255,255,.04);
+    }
+
+    .result-item.full {
+      grid-column: 1 / -1;
+    }
+
+    .result-label {
+      display: block;
+
+      margin-bottom: 6px;
+
+      color: var(--muted-2);
+
+      font-family: "DM Mono", monospace;
+
+      font-size: 9px;
+
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .result-value {
+      color: #d9dde2;
+
+      font-size: 12px;
+
       word-break: break-all;
+      line-height: 1.5;
     }
 
-    .spinner {
-      display: inline-block;
-      width: 24px;
-      height: 24px;
-      border: 3px solid rgba(255, 255, 255, 0.1);
+    .destination {
+      color: var(--accent);
+    }
+
+    /* =========================
+       STATS
+    ========================== */
+
+    .stats {
+      max-width: 850px;
+
+      margin: 22px auto 0;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 10px;
+
+      animation:
+        fadeUp .8s .32s ease both;
+    }
+
+    .stat {
+      padding: 17px;
+
+      text-align: left;
+
+      border-radius: 16px;
+
+      background:
+        rgba(255,255,255,.018);
+
+      border: 1px solid var(--border);
+
+      transition: .25s ease;
+    }
+
+    .stat:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-hover);
+      background: rgba(255,255,255,.028);
+    }
+
+    .stat-value {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -.03em;
+    }
+
+    .stat-label {
+      margin-top: 5px;
+
+      color: var(--muted-2);
+
+      font-size: 10px;
+    }
+
+    /* =========================
+       FEATURES
+    ========================== */
+
+    .features {
+      padding:
+        100px 0
+        70px;
+    }
+
+    .section-heading {
+      text-align: center;
+
+      margin-bottom: 38px;
+    }
+
+    .section-heading small {
+      color: var(--accent);
+
+      font-family: "DM Mono", monospace;
+
+      font-size: 9px;
+
+      text-transform: uppercase;
+      letter-spacing: .15em;
+    }
+
+    .section-heading h2 {
+      margin-top: 12px;
+
+      font-size: 32px;
+
+      letter-spacing: -.045em;
+    }
+
+    .section-heading p {
+      margin: 12px auto 0;
+
+      max-width: 500px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .feature-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap: 12px;
+    }
+
+    .feature {
+      min-height: 205px;
+
+      padding: 23px;
+
+      border-radius: 20px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.035),
+          rgba(255,255,255,.012)
+        );
+
+      border: 1px solid var(--border);
+
+      transition:
+        transform .3s ease,
+        border-color .3s ease,
+        background .3s ease;
+
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature::after {
+      content: "";
+
+      position: absolute;
+
+      width: 100px;
+      height: 100px;
+
+      right: -50px;
+      bottom: -50px;
+
       border-radius: 50%;
-      border-top-color: #667eea;
-      animation: spin 0.8s linear infinite;
+
+      background: var(--accent);
+
+      filter: blur(60px);
+
+      opacity: 0;
+
+      transition: .3s;
+    }
+
+    .feature:hover {
+      transform: translateY(-4px);
+
+      border-color:
+        rgba(140,255,102,.15);
+
+      background:
+        rgba(255,255,255,.045);
+    }
+
+    .feature:hover::after {
+      opacity: .12;
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 12px;
+
+      background:
+        rgba(140,255,102,.07);
+
+      border: 1px solid
+        rgba(140,255,102,.1);
+
+      color: var(--accent);
+
+      margin-bottom: 22px;
+    }
+
+    .feature h3 {
+      font-size: 14px;
+      margin-bottom: 9px;
+    }
+
+    .feature p {
+      color: var(--muted);
+
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    /* =========================
+       FOOTER
+    ========================== */
+
+    footer {
+      width: min(1180px, calc(100% - 40px));
+
+      margin: 0 auto;
+
+      padding:
+        30px 0 40px;
+
+      border-top:
+        1px solid var(--border);
+
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      color: var(--muted-2);
+
+      font-size: 10px;
+    }
+
+    .footer-brand {
+      font-weight: 700;
+      color: #777d85;
+    }
+
+    /* =========================
+       LOADING
+    ========================== */
+
+    .loader {
+      width: 16px;
+      height: 16px;
+
+      border-radius: 50%;
+
+      border:
+        2px solid rgba(0,0,0,.2);
+
+      border-top-color: #071006;
+
+      animation:
+        spin .65s linear infinite;
     }
 
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
-    .status-badge {
-      display: inline-block;
-      padding: 0.2rem 0.8rem;
-      border-radius: 60px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    /* =========================
+       RESPONSIVE
+    ========================== */
+
+    @media (max-width: 760px) {
+
+      .navbar {
+        width: min(100% - 28px, 1180px);
+      }
+
+      main {
+        width: min(100% - 28px, 1180px);
+      }
+
+      .hero {
+        padding:
+          65px 0
+          50px;
+      }
+
+      .hero h1 {
+        font-size: 44px;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .result-item.full {
+        grid-column: auto;
+      }
+
+      footer {
+        width: min(100% - 28px, 1180px);
+      }
     }
 
-    .status-success {
-      background: rgba(52, 211, 153, 0.2);
-      color: #6ee7b7;
+    @media (max-width: 560px) {
+
+      .nav-right .status {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 40px;
+      }
+
+      .hero-description {
+        font-size: 13px;
+      }
+
+      .input-row {
+        flex-wrap: wrap;
+
+        padding:
+          8px;
+      }
+
+      .link-icon {
+        display: none;
+      }
+
+      #urlInput {
+        width: 100%;
+        flex-basis: 100%;
+
+        padding:
+          0 10px;
+      }
+
+      .bypass-btn {
+        width: 100%;
+      }
+
+      .tool-footer {
+        font-size: 9px;
+      }
+
+      .features {
+        padding-top: 70px;
+      }
+
+      .section-heading h2 {
+        font-size: 27px;
+      }
     }
 
-    .status-error {
-      background: rgba(251, 113, 133, 0.2);
-      color: #fb7185;
-    }
-
-    .footer-note {
-      margin-top: 2rem;
-      text-align: center;
-      font-size: 0.75rem;
-      opacity: 0.25;
-      letter-spacing: 0.04em;
-    }
-
-    @media (max-width: 480px) {
-      .card { padding: 1.5rem; }
-      .header-text h1 { font-size: 1.4rem; }
-      .input-group button { width: 100%; justify-content: center; }
-      .input-group input { min-width: unset; }
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<div class="card">
-  <div class="header">
-    <div class="header-icon">🔗</div>
-    <div class="header-text">
-      <h1>Bypass SFL</h1>
-      <p>Khaddavi · aman &amp; cepat</p>
+  <div class="background">
+    <div class="grid"></div>
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+  </div>
+
+  <!-- NAVBAR -->
+
+  <nav class="navbar">
+
+    <a class="brand" href="#">
+      <div class="brand-mark">↗</div>
+
+      <div class="brand-name">
+        Bypass<span>.</span>SFL
+      </div>
+    </a>
+
+    <div class="nav-right">
+
+      <div class="status">
+        <span class="status-dot"></span>
+        System Operational
+      </div>
+
     </div>
-  </div>
 
-  <div class="input-group">
-    <input type="text" id="urlInput" placeholder="https://sfl.gl/..." value="https://sfl.gl/dyktx" />
-    <button id="bypassBtn">Bypass</button>
-  </div>
+  </nav>
 
-  <div class="result-area" id="resultArea">
-    <div class="placeholder" id="placeholder">
-      <i>⚡</i> Siap menerima link
+
+  <main>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+      <div class="eyebrow">
+        <i></i>
+        Fast Link Resolution
+      </div>
+
+      <h1>
+        Your link.
+        <span>Resolved.</span>
+      </h1>
+
+      <p class="hero-description">
+        Masukkan link SFL dan biarkan sistem memproses
+        redirect secara otomatis. Cepat, sederhana,
+        tanpa interface yang ribet.
+      </p>
+
+    </section>
+
+
+    <!-- TOOL -->
+
+    <section class="tool-shell">
+
+      <div class="tool">
+
+        <div class="input-row">
+
+          <div class="link-icon">
+            ↗
+          </div>
+
+          <input
+            id="urlInput"
+            type="url"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Paste your SFL link here..."
+            value="https://sfl.gl/dyktx"
+          />
+
+          <button
+            class="bypass-btn"
+            id="bypassBtn"
+          >
+            <span id="buttonText">
+              Resolve Link
+            </span>
+          </button>
+
+        </div>
+
+        <div class="tool-footer">
+
+          <span>
+            ENTER untuk memproses
+          </span>
+
+          <span>
+            SECURE REQUEST
+          </span>
+
+        </div>
+
+        <!-- RESULT -->
+
+        <div
+          class="result-area"
+          id="resultArea"
+        >
+
+          <div class="result-head">
+
+            <div class="result-title">
+              Resolution Result
+            </div>
+
+            <div
+              class="badge"
+              id="statusBadge"
+            >
+              --
+            </div>
+
+          </div>
+
+          <div
+            class="result-grid"
+            id="resultContent"
+          ></div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+      <div class="stat">
+        <div class="stat-value">
+          &lt; 1s
+        </div>
+
+        <div class="stat-label">
+          Typical response
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-value">
+          SFL
+        </div>
+
+        <div class="stat-label">
+          Supported service
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-value">
+          API
+        </div>
+
+        <div class="stat-label">
+          Server-side processing
+        </div>
+      </div>
+
     </div>
-    <div id="resultContent" style="display: none;"></div>
-  </div>
 
-  <div class="footer-note">dibuat dengan · Baim</div>
-</div>
 
-<script>
-  (function() {
-    const urlInput = document.getElementById('urlInput');
-    const bypassBtn = document.getElementById('bypassBtn');
-    const resultArea = document.getElementById('resultArea');
-    const placeholder = document.getElementById('placeholder');
-    const resultContent = document.getElementById('resultContent');
+    <!-- FEATURES -->
 
-    function showLoading() {
-      bypassBtn.disabled = true;
-      bypassBtn.textContent = '⏳';
-      placeholder.style.display = 'flex';
-      placeholder.innerHTML = `<span class="spinner"></span> Memproses...`;
-      resultContent.style.display = 'none';
-    }
+    <section class="features">
 
-    function showResult(data) {
-      bypassBtn.disabled = false;
-      bypassBtn.textContent = 'Bypass';
-      placeholder.style.display = 'none';
-      resultContent.style.display = 'block';
+      <div class="section-heading">
 
-      const isSuccess = data.status === 'success';
-      const badge = isSuccess
-        ? `<span class="status-badge status-success">✓ sukses</span>`
-        : `<span class="status-badge status-error">✗ error</span>`;
+        <small>
+          Built for speed
+        </small>
 
-      let html = `
-        <div style="margin-bottom: 0.5rem;">${badge}</div>
-        <div><span class="label">Input</span><br><span class="value" style="font-size:0.8rem;">${escapeHtml(data.input_url || '-')}</span></div>
-        <div style="margin-top:0.8rem;"><span class="label">Alias</span><br><span class="value">${escapeHtml(data.alias || '-')}</span></div>
-      `;
+        <h2>
+          Simple on purpose.
+        </h2>
 
-      if (isSuccess && data.destination) {
-        html += `
-          <div style="margin-top:0.8rem;">
-            <span class="label">Destination</span><br>
-            <span class="value destination">${escapeHtml(data.destination)}</span>
+        <p>
+          Interface dibuat fokus ke satu hal:
+          memasukkan link dan mendapatkan hasil
+          dengan cepat.
+        </p>
+
+      </div>
+
+
+      <div class="feature-grid">
+
+        <article class="feature">
+
+          <div class="feature-icon">
+            ↯
           </div>
-          <div style="margin-top:0.8rem; display:flex; gap:1.2rem; flex-wrap:wrap;">
-            <div><span class="label">Durasi</span><br><span class="value">${escapeHtml(data.duration || '-')}</span></div>
-            <div><span class="label">Elapsed (ms)</span><br><span class="value">${escapeHtml(String(data.elapsed_ms || '-'))}</span></div>
+
+          <h3>
+            Fast Resolution
+          </h3>
+
+          <p>
+            Request diproses langsung melalui
+            backend sehingga browser hanya
+            menangani interface dan hasil.
+          </p>
+
+        </article>
+
+
+        <article class="feature">
+
+          <div class="feature-icon">
+            ◉
           </div>
-        `;
-      } else if (!isSuccess && data.message) {
-        html += `
-          <div style="margin-top:0.8rem; color:#fb7185;">
-            <span class="label">Pesan error</span><br>
-            <span class="value" style="color:#fb7185;">${escapeHtml(data.message)}</span>
+
+          <h3>
+            Clean Result
+          </h3>
+
+          <p>
+            Destination, alias, durasi dan
+            informasi request ditampilkan
+            dalam format yang mudah dibaca.
+          </p>
+
+        </article>
+
+
+        <article class="feature">
+
+          <div class="feature-icon">
+            ⌁
           </div>
-        `;
+
+          <h3>
+            Responsive
+          </h3>
+
+          <p>
+            Layout menyesuaikan desktop,
+            tablet dan mobile tanpa mengorbankan
+            tampilan interface.
+          </p>
+
+        </article>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+
+    <div class="footer-brand">
+      Bypass.SFL
+    </div>
+
+    <div>
+      Built by Baim · 2026
+    </div>
+
+  </footer>
+
+
+  <script>
+
+    (() => {
+
+      const urlInput =
+        document.getElementById("urlInput");
+
+      const bypassBtn =
+        document.getElementById("bypassBtn");
+
+      const buttonText =
+        document.getElementById("buttonText");
+
+      const resultArea =
+        document.getElementById("resultArea");
+
+      const resultContent =
+        document.getElementById("resultContent");
+
+      const statusBadge =
+        document.getElementById("statusBadge");
+
+
+      function escapeHtml(value) {
+
+        if (
+          value === undefined ||
+          value === null ||
+          value === ""
+        ) {
+          return "-";
+        }
+
+        const div =
+          document.createElement("div");
+
+        div.textContent =
+          String(value);
+
+        return div.innerHTML;
       }
 
-      resultContent.innerHTML = html;
-    }
 
-    function escapeHtml(text) {
-      if (!text) return '-';
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
+      function setLoading(loading) {
 
-    bypassBtn.addEventListener('click', async () => {
-      const url = urlInput.value.trim();
-      if (!url) {
-        alert('Masukkan URL SFL terlebih dahulu.');
-        return;
+        bypassBtn.disabled =
+          loading;
+
+        if (loading) {
+
+          buttonText.innerHTML =
+            `<span class="loader"></span>`;
+
+        } else {
+
+          buttonText.textContent =
+            "Resolve Link";
+
+        }
+
       }
 
-      showLoading();
 
-      try {
-        const res = await fetch('/api/bypass', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url })
+      function showResult(data) {
+
+        const success =
+          data.status === "success";
+
+
+        resultArea.classList.add(
+          "visible"
+        );
+
+
+        statusBadge.className =
+          "badge " +
+          (success
+            ? "success"
+            : "error");
+
+
+        statusBadge.textContent =
+          success
+            ? "Success"
+            : "Error";
+
+
+        let html = `
+
+          <div class="result-item full">
+
+            <span class="result-label">
+              Input URL
+            </span>
+
+            <div class="result-value">
+              ${escapeHtml(
+                data.input_url
+              )}
+            </div>
+
+          </div>
+
+          <div class="result-item">
+
+            <span class="result-label">
+              Alias
+            </span>
+
+            <div class="result-value">
+              ${escapeHtml(
+                data.alias
+              )}
+            </div>
+
+          </div>
+
+        `;
+
+
+        if (
+          success &&
+          data.destination
+        ) {
+
+          html += `
+
+            <div class="result-item">
+
+              <span class="result-label">
+                Duration
+              </span>
+
+              <div class="result-value">
+                ${escapeHtml(
+                  data.duration || "-"
+                )}
+              </div>
+
+            </div>
+
+            <div class="result-item full">
+
+              <span class="result-label">
+                Destination
+              </span>
+
+              <div class="result-value destination">
+                ${escapeHtml(
+                  data.destination
+                )}
+              </div>
+
+            </div>
+
+            <div class="result-item">
+
+              <span class="result-label">
+                Elapsed
+              </span>
+
+              <div class="result-value">
+                ${escapeHtml(
+                  String(
+                    data.elapsed_ms ?? "-"
+                  )
+                )} ms
+              </div>
+
+            </div>
+
+            <div class="result-item">
+
+              <span class="result-label">
+                Status
+              </span>
+
+              <div class="result-value">
+                Resolution completed
+              </div>
+
+            </div>
+
+          `;
+
+        } else {
+
+          html += `
+
+            <div
+              class="result-item full"
+              style="border-color:rgba(255,101,119,.12)"
+            >
+
+              <span class="result-label">
+                Error
+              </span>
+
+              <div
+                class="result-value"
+                style="color:#ff6577"
+              >
+                ${escapeHtml(
+                  data.message ||
+                  "Request failed."
+                )}
+              </div>
+
+            </div>
+
+          `;
+
+        }
+
+
+        resultContent.innerHTML =
+          html;
+
+
+        resultArea.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest"
         });
-        const data = await res.json();
-        showResult(data);
-      } catch (err) {
-        showResult({ status: 'error', message: err.message, input_url: url });
+
       }
-    });
 
-    // Allow enter key
-    urlInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') bypassBtn.click();
-    });
 
-    // Initial placeholder
-    placeholder.innerHTML = `<i>⚡</i> Siap menerima link`;
-  })();
-</script>
+      async function resolveLink() {
+
+        const url =
+          urlInput.value.trim();
+
+
+        if (!url) {
+
+          urlInput.focus();
+
+          urlInput.style.border =
+            "1px solid rgba(255,101,119,.5)";
+
+          setTimeout(() => {
+
+            urlInput.style.border =
+              "";
+
+          }, 800);
+
+          return;
+
+        }
+
+
+        try {
+
+          new URL(url);
+
+        } catch {
+
+          showResult({
+
+            status: "error",
+
+            message:
+              "URL tidak valid.",
+
+            input_url:
+              url
+
+          });
+
+          return;
+
+        }
+
+
+        setLoading(true);
+
+
+        resultArea.classList.remove(
+          "visible"
+        );
+
+
+        try {
+
+          const response =
+            await fetch(
+              "/api/bypass",
+              {
+                method: "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body:
+                  JSON.stringify({
+                    url
+                  })
+              }
+            );
+
+
+          let data;
+
+          try {
+
+            data =
+              await response.json();
+
+          } catch {
+
+            data = {
+
+              status: "error",
+
+              message:
+                "Server mengembalikan response yang tidak valid.",
+
+              input_url:
+                url
+
+            };
+
+          }
+
+
+          showResult(data);
+
+        } catch (error) {
+
+          showResult({
+
+            status: "error",
+
+            message:
+              error.message ||
+              "Tidak dapat terhubung ke server.",
+
+            input_url:
+              url
+
+          });
+
+        } finally {
+
+          setLoading(false);
+
+        }
+
+      }
+
+
+      bypassBtn.addEventListener(
+        "click",
+        resolveLink
+      );
+
+
+      urlInput.addEventListener(
+        "keydown",
+        event => {
+
+          if (
+            event.key === "Enter"
+          ) {
+
+            event.preventDefault();
+
+            resolveLink();
+
+          }
+
+        }
+      );
+
+
+      /*
+       * Subtle mouse movement effect
+       * hanya desktop
+       */
+
+      const tool =
+        document.querySelector(".tool");
+
+
+      if (
+        window.matchMedia(
+          "(pointer:fine)"
+        ).matches
+      ) {
+
+        tool.addEventListener(
+          "mousemove",
+          event => {
+
+            const rect =
+              tool.getBoundingClientRect();
+
+            const x =
+              (event.clientX - rect.left)
+              / rect.width;
+
+            const y =
+              (event.clientY - rect.top)
+              / rect.height;
+
+
+            tool.style.transform =
+              `perspective(1000px)
+               rotateX(${(0.5-y)*1.2}deg)
+               rotateY(${(x-0.5)*1.2}deg)`;
+
+          }
+        );
+
+
+        tool.addEventListener(
+          "mouseleave",
+          () => {
+
+            tool.style.transform =
+              "";
+
+          }
+        );
+
+      }
+
+    })();
+
+  </script>
 
 </body>
-</html>
+        </html>
