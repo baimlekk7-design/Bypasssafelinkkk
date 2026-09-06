@@ -1,49 +1,42 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Bypass SFL — Fast Link Resolver</title>
+  <title>BAIMLUAA — Link Resolver</title>
   <meta
     name="description"
-    content="Fast and clean SFL link resolver."
-  />
+    content="BAIMLUAA Link Resolver — fast, clean and simple."
+  >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
-  />
+  >
 
   <style>
     :root {
-      --bg: #060708;
-      --bg-soft: #0b0d0f;
-      --panel: rgba(15, 17, 20, .78);
-      --panel-solid: #101316;
+      --bg: #050605;
+      --bg-2: #080a08;
 
-      --border: rgba(255,255,255,.075);
-      --border-hover: rgba(255,255,255,.14);
+      --green: #a8ff00;
+      --green-2: #75e900;
 
-      --text: #f4f5f7;
-      --muted: #858b94;
-      --muted-2: #5d636b;
+      --white: #f5f7f3;
+      --text: #d9ddd5;
+      --muted: #777d75;
+      --muted-2: #50554f;
 
-      --accent: #8cff66;
-      --accent-soft: rgba(140,255,102,.10);
-      --accent-glow: rgba(140,255,102,.20);
+      --line: rgba(255,255,255,.075);
+      --line-green: rgba(168,255,0,.22);
 
-      --danger: #ff6577;
+      --panel: rgba(13,16,13,.78);
 
-      --radius-xl: 28px;
-      --radius-lg: 20px;
-      --radius-md: 14px;
-
-      --shadow:
-        0 30px 80px rgba(0,0,0,.45),
-        0 10px 30px rgba(0,0,0,.25);
+      --radius: 24px;
     }
 
     * {
@@ -58,117 +51,153 @@
 
     body {
       min-height: 100vh;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Inter, sans-serif;
       overflow-x: hidden;
-    }
 
-    button,
-    input {
-      font: inherit;
-    }
+      color: var(--white);
 
-    button {
-      border: 0;
-    }
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
 
-    /* =========================
-       BACKGROUND
-    ========================== */
-
-    .background {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: -1;
       background:
         radial-gradient(
-          circle at 50% -10%,
-          rgba(140,255,102,.09),
-          transparent 35%
+          circle at 70% -10%,
+          rgba(168,255,0,.08),
+          transparent 30%
         ),
         radial-gradient(
-          circle at 0% 50%,
-          rgba(90,120,255,.035),
-          transparent 30%
+          circle at 0% 45%,
+          rgba(168,255,0,.035),
+          transparent 28%
         ),
         var(--bg);
     }
 
-    .grid {
+    /* =========================================================
+       BACKGROUND
+    ========================================================= */
+
+    .background {
+      position: fixed;
+      inset: 0;
+      z-index: -10;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .background-grid {
       position: absolute;
       inset: 0;
 
       background-image:
         linear-gradient(
-          rgba(255,255,255,.025) 1px,
+          rgba(255,255,255,.018) 1px,
           transparent 1px
         ),
         linear-gradient(
           90deg,
-          rgba(255,255,255,.025) 1px,
+          rgba(255,255,255,.018) 1px,
           transparent 1px
         );
 
-      background-size: 55px 55px;
+      background-size: 52px 52px;
 
       mask-image:
         linear-gradient(
           to bottom,
-          black,
-          transparent 80%
+          black 0%,
+          rgba(0,0,0,.7) 40%,
+          transparent 90%
         );
-
-      opacity: .45;
     }
 
-    .orb {
+    .noise {
       position: absolute;
-      width: 420px;
-      height: 420px;
+      inset: -100%;
+
+      opacity: .035;
+
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+
+      animation: noiseMove .35s steps(2) infinite;
+    }
+
+    @keyframes noiseMove {
+      0% {
+        transform: translate(0,0);
+      }
+
+      25% {
+        transform: translate(2%, -1%);
+      }
+
+      50% {
+        transform: translate(-1%, 2%);
+      }
+
+      75% {
+        transform: translate(1%, 1%);
+      }
+
+      100% {
+        transform: translate(-2%, -2%);
+      }
+    }
+
+    .ambient {
+      position: absolute;
+
+      width: 500px;
+      height: 500px;
 
       border-radius: 50%;
-      filter: blur(100px);
 
-      opacity: .07;
-      background: var(--accent);
+      background: var(--green);
 
-      animation: floatOrb 12s ease-in-out infinite;
+      filter: blur(150px);
+
+      opacity: .045;
+
+      animation:
+        ambientMove 13s ease-in-out infinite;
     }
 
-    .orb.one {
-      top: 10%;
-      left: -180px;
+    .ambient.one {
+      left: -250px;
+      top: 20%;
     }
 
-    .orb.two {
-      right: -200px;
-      top: 45%;
-      animation-delay: -5s;
-      background: #5872ff;
+    .ambient.two {
+      right: -300px;
+      top: 55%;
+
+      animation-delay: -6s;
     }
 
-    @keyframes floatOrb {
-      0%,100% {
+    @keyframes ambientMove {
+      0%, 100% {
         transform: translate3d(0,0,0);
       }
 
       50% {
-        transform: translate3d(0,40px,0);
+        transform: translate3d(0,60px,0);
       }
     }
 
-    /* =========================
+    /* =========================================================
        NAVBAR
-    ========================== */
+    ========================================================= */
 
     .navbar {
       width: min(1180px, calc(100% - 40px));
-      margin: 0 auto;
 
-      height: 76px;
+      height: 82px;
+
+      margin: auto;
 
       display: flex;
       align-items: center;
@@ -178,195 +207,183 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 11px;
+      gap: 12px;
 
+      color: white;
       text-decoration: none;
-      color: var(--text);
     }
 
-    .brand-mark {
-      width: 35px;
-      height: 35px;
+    .brand-logo {
+      width: 40px;
+      height: 40px;
 
-      display: grid;
-      place-items: center;
+      border-radius: 11px;
 
-      border-radius: 10px;
+      object-fit: cover;
 
-      background:
-        linear-gradient(
-          145deg,
-          rgba(140,255,102,.2),
-          rgba(140,255,102,.03)
-        );
-
-      border: 1px solid rgba(140,255,102,.2);
-
-      color: var(--accent);
+      border:
+        1px solid rgba(168,255,0,.3);
 
       box-shadow:
-        inset 0 0 20px rgba(140,255,102,.05),
-        0 0 25px rgba(140,255,102,.06);
-
-      font-size: 15px;
+        0 0 30px rgba(168,255,0,.08);
     }
 
-    .brand-name {
+    .brand-text {
       font-size: 14px;
-      font-weight: 700;
-      letter-spacing: -.02em;
+      font-weight: 800;
+      letter-spacing: -.025em;
     }
 
-    .brand-name span {
-      color: var(--accent);
+    .brand-text span {
+      color: var(--green);
     }
 
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .status {
+    .nav-status {
       display: flex;
       align-items: center;
       gap: 8px;
 
       color: var(--muted);
 
-      font-size: 12px;
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
     }
 
     .status-dot {
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
 
       border-radius: 50%;
 
-      background: var(--accent);
+      background: var(--green);
 
       box-shadow:
-        0 0 0 4px rgba(140,255,102,.08),
-        0 0 15px var(--accent);
+        0 0 0 4px rgba(168,255,0,.07),
+        0 0 14px rgba(168,255,0,.7);
 
-      animation: pulse 2s infinite;
+      animation: statusPulse 2s infinite;
     }
 
-    @keyframes pulse {
+    @keyframes statusPulse {
       0%,100% {
         opacity: 1;
       }
 
       50% {
-        opacity: .4;
+        opacity: .35;
       }
     }
 
-    /* =========================
-       MAIN
-    ========================== */
+    /* =========================================================
+       HERO
+    ========================================================= */
 
     main {
       width: min(1180px, calc(100% - 40px));
-      margin: 0 auto;
+      margin: auto;
     }
 
     .hero {
-      padding:
-        90px 0
-        70px;
+      min-height: 650px;
 
-      text-align: center;
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1.08fr)
+        minmax(350px, .92fr);
+
+      align-items: center;
+
+      gap: 70px;
+
+      padding:
+        65px 0
+        90px;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
 
-      padding: 7px 11px;
+      padding: 7px 10px;
 
       border-radius: 999px;
 
-      background: rgba(255,255,255,.025);
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
 
-      color: #aeb4bc;
+      background:
+        rgba(255,255,255,.025);
+
+      color: #969d94;
 
       font-family: "DM Mono", monospace;
-      font-size: 10px;
+      font-size: 9px;
 
-      letter-spacing: .08em;
+      letter-spacing: .1em;
       text-transform: uppercase;
 
-      animation: fadeUp .7s ease both;
+      animation:
+        fadeUp .7s ease both;
     }
 
-    .eyebrow i {
+    .eyebrow span {
       width: 5px;
       height: 5px;
 
       border-radius: 50%;
-      background: var(--accent);
+
+      background: var(--green);
+
+      box-shadow:
+        0 0 10px var(--green);
     }
 
     .hero h1 {
-      max-width: 850px;
+      max-width: 720px;
 
-      margin:
-        25px auto 0;
+      margin-top: 25px;
 
       font-size:
-        clamp(42px, 7vw, 76px);
+        clamp(48px, 6vw, 78px);
 
-      line-height: .98;
+      line-height: .96;
 
-      letter-spacing: -.065em;
+      letter-spacing: -.07em;
+
       font-weight: 800;
 
       animation:
-        fadeUp .8s .08s ease both;
+        fadeUp .75s .08s ease both;
     }
 
-    .hero h1 span {
-      color: transparent;
+    .hero h1 .green {
+      color: var(--green);
 
-      background:
-        linear-gradient(
-          110deg,
-          #fff 0%,
-          #fff 35%,
-          #8cff66 75%,
-          #d5ffc8 100%
-        );
-
-      -webkit-background-clip: text;
-      background-clip: text;
-
-      background-size: 200% auto;
-
-      animation:
-        shine 5s linear infinite;
-    }
-
-    @keyframes shine {
-      to {
-        background-position: 200% center;
-      }
+      text-shadow:
+        0 0 45px rgba(168,255,0,.12);
     }
 
     .hero-description {
-      max-width: 590px;
+      max-width: 540px;
 
-      margin: 25px auto 0;
+      margin-top: 26px;
 
       color: var(--muted);
 
-      font-size: 15px;
-      line-height: 1.7;
+      font-size: 14px;
+
+      line-height: 1.75;
 
       animation:
-        fadeUp .8s .16s ease both;
+        fadeUp .75s .15s ease both;
     }
 
     @keyframes fadeUp {
@@ -381,107 +398,89 @@
       }
     }
 
-    /* =========================
+    /* =========================================================
        TOOL
-    ========================== */
+    ========================================================= */
 
-    .tool-shell {
-      position: relative;
+    .resolver {
+      margin-top: 35px;
 
-      max-width: 850px;
-      margin: 0 auto;
+      max-width: 690px;
 
       animation:
-        fadeUp .8s .24s ease both;
+        fadeUp .8s .22s ease both;
     }
 
-    .tool-shell::before {
-      content: "";
-
-      position: absolute;
-
-      inset: -1px;
-
-      border-radius: var(--radius-xl);
-
-      background:
-        linear-gradient(
-          120deg,
-          rgba(140,255,102,.16),
-          transparent 25%,
-          transparent 75%,
-          rgba(140,255,102,.07)
-        );
-
-      opacity: .7;
-
-      pointer-events: none;
-    }
-
-    .tool {
+    .resolver-box {
       position: relative;
 
-      padding: 9px;
+      padding: 8px;
 
-      border-radius: var(--radius-xl);
+      border-radius: 20px;
 
       background:
         linear-gradient(
           145deg,
           rgba(255,255,255,.055),
-          rgba(255,255,255,.018)
+          rgba(255,255,255,.015)
         );
 
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
 
-      box-shadow: var(--shadow);
+      box-shadow:
+        0 30px 70px rgba(0,0,0,.4);
 
-      backdrop-filter: blur(25px);
+      transition:
+        border-color .3s ease,
+        box-shadow .3s ease;
+    }
+
+    .resolver-box:focus-within {
+      border-color: var(--line-green);
+
+      box-shadow:
+        0 30px 80px rgba(0,0,0,.45),
+        0 0 50px rgba(168,255,0,.035);
     }
 
     .input-row {
       display: flex;
       align-items: center;
 
-      min-height: 68px;
-
-      padding: 7px 7px 7px 20px;
-
       gap: 10px;
 
-      border-radius: 20px;
+      padding:
+        7px 7px 7px 17px;
+
+      min-height: 64px;
+
+      border-radius: 15px;
 
       background:
-        rgba(0,0,0,.34);
+        rgba(0,0,0,.38);
 
-      border: 1px solid rgba(255,255,255,.045);
-
-      transition: .25s ease;
+      border:
+        1px solid rgba(255,255,255,.04);
     }
 
-    .input-row:focus-within {
-      border-color:
-        rgba(140,255,102,.3);
+    .input-symbol {
+      width: 32px;
+      height: 32px;
 
-      box-shadow:
-        0 0 0 4px rgba(140,255,102,.045),
-        0 0 35px rgba(140,255,102,.04);
-    }
-
-    .link-icon {
-      width: 34px;
-      height: 34px;
-
-      flex: 0 0 34px;
+      flex: 0 0 32px;
 
       display: grid;
       place-items: center;
 
-      border-radius: 10px;
+      border-radius: 9px;
 
-      background: rgba(255,255,255,.035);
+      color: var(--green);
 
-      color: var(--muted);
+      background:
+        rgba(168,255,0,.06);
+
+      border:
+        1px solid rgba(168,255,0,.1);
 
       font-size: 14px;
     }
@@ -491,46 +490,48 @@
 
       min-width: 0;
 
-      height: 50px;
+      height: 46px;
 
-      outline: none;
-      border: none;
+      border: 0;
+      outline: 0;
 
       background: transparent;
 
-      color: var(--text);
+      color: var(--white);
 
-      font-size: 14px;
+      font-size: 13px;
     }
 
     #urlInput::placeholder {
-      color: #555b63;
+      color: #4f554f;
     }
 
-    .bypass-btn {
-      height: 52px;
+    #bypassBtn {
+      height: 48px;
 
-      padding:
-        0 25px;
+      padding: 0 22px;
 
-      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 8px;
+
+      border-radius: 12px;
 
       cursor: pointer;
 
-      color: #071006;
+      color: #0a0d07;
 
       background:
         linear-gradient(
           135deg,
-          #a8ff8b,
-          #74ed52
+          #c1ff65,
+          #7fe900
         );
 
+      font-size: 12px;
       font-weight: 800;
-      font-size: 13px;
-
-      box-shadow:
-        0 7px 25px rgba(140,255,102,.14);
 
       transition:
         transform .2s ease,
@@ -538,72 +539,71 @@
         filter .2s ease;
     }
 
-    .bypass-btn:hover {
+    #bypassBtn:hover {
       transform: translateY(-1px);
 
-      box-shadow:
-        0 12px 35px rgba(140,255,102,.24);
+      filter: brightness(1.05);
 
-      filter: brightness(1.04);
+      box-shadow:
+        0 10px 35px rgba(168,255,0,.18);
     }
 
-    .bypass-btn:active {
+    #bypassBtn:active {
       transform: scale(.97);
     }
 
-    .bypass-btn:disabled {
-      opacity: .55;
+    #bypassBtn:disabled {
       cursor: wait;
+      opacity: .55;
       transform: none;
     }
 
-    .tool-footer {
+    .resolver-meta {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
 
       padding:
-        11px 12px 3px;
+        10px 5px 2px;
 
       color: var(--muted-2);
 
-      font-size: 10px;
       font-family: "DM Mono", monospace;
+      font-size: 8px;
+
+      text-transform: uppercase;
+      letter-spacing: .08em;
     }
 
-    .tool-footer span:last-child {
-      color: #69706a;
-    }
-
-    /* =========================
+    /* =========================================================
        RESULT
-    ========================== */
+    ========================================================= */
 
-    .result-area {
+    .result {
       display: none;
 
-      margin-top: 16px;
+      margin-top: 12px;
 
-      padding: 20px;
+      padding: 18px;
 
-      text-align: left;
-
-      border-radius: 20px;
+      border-radius: 17px;
 
       background:
         rgba(0,0,0,.28);
 
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
+
+      text-align: left;
 
       animation:
-        resultIn .4s ease both;
+        resultShow .35s ease both;
     }
 
-    .result-area.visible {
+    .result.active {
       display: block;
     }
 
-    @keyframes resultIn {
+    @keyframes resultShow {
       from {
         opacity: 0;
         transform: translateY(8px);
@@ -615,17 +615,16 @@
       }
     }
 
-    .result-head {
+    .result-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
 
-      margin-bottom: 18px;
+      margin-bottom: 15px;
     }
 
-    .result-title {
-      font-size: 12px;
-      font-weight: 700;
+    .result-header strong {
+      font-size: 11px;
     }
 
     .badge {
@@ -633,43 +632,52 @@
 
       border-radius: 999px;
 
-      font-size: 9px;
-      font-weight: 700;
+      font-size: 8px;
+      font-weight: 800;
 
-      text-transform: uppercase;
       letter-spacing: .08em;
+      text-transform: uppercase;
     }
 
     .badge.success {
-      color: var(--accent);
-      background: rgba(140,255,102,.08);
-      border: 1px solid rgba(140,255,102,.12);
+      color: var(--green);
+
+      background:
+        rgba(168,255,0,.07);
+
+      border:
+        1px solid rgba(168,255,0,.13);
     }
 
     .badge.error {
-      color: var(--danger);
-      background: rgba(255,101,119,.08);
-      border: 1px solid rgba(255,101,119,.12);
+      color: #ff6878;
+
+      background:
+        rgba(255,70,90,.07);
+
+      border:
+        1px solid rgba(255,70,90,.13);
     }
 
     .result-grid {
       display: grid;
 
       grid-template-columns:
-        repeat(2, minmax(0,1fr));
+        repeat(2, 1fr);
 
-      gap: 10px;
+      gap: 8px;
     }
 
     .result-item {
-      padding: 13px;
+      padding: 12px;
 
-      border-radius: 13px;
+      border-radius: 11px;
 
       background:
         rgba(255,255,255,.025);
 
-      border: 1px solid rgba(255,255,255,.04);
+      border:
+        1px solid rgba(255,255,255,.04);
     }
 
     .result-item.full {
@@ -685,139 +693,307 @@
 
       font-family: "DM Mono", monospace;
 
-      font-size: 9px;
+      font-size: 8px;
 
-      text-transform: uppercase;
       letter-spacing: .08em;
+      text-transform: uppercase;
     }
 
     .result-value {
-      color: #d9dde2;
+      color: #d8ddd6;
 
-      font-size: 12px;
+      font-size: 11px;
+
+      line-height: 1.5;
 
       word-break: break-all;
-      line-height: 1.5;
     }
 
-    .destination {
-      color: var(--accent);
+    .result-value.destination {
+      color: var(--green);
     }
 
-    /* =========================
-       STATS
-    ========================== */
+    /* =========================================================
+       HERO ART
+    ========================================================= */
 
-    .stats {
-      max-width: 850px;
+    .visual-wrap {
+      position: relative;
 
-      margin: 22px auto 0;
+      min-height: 500px;
 
-      display: grid;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 10px;
+      perspective: 1000px;
 
       animation:
-        fadeUp .8s .32s ease both;
+        fadeUp .9s .2s ease both;
     }
 
-    .stat {
-      padding: 17px;
+    .visual-glow {
+      position: absolute;
 
-      text-align: left;
+      width: 280px;
+      height: 280px;
 
-      border-radius: 16px;
+      border-radius: 50%;
+
+      background: var(--green);
+
+      filter: blur(120px);
+
+      opacity: .08;
+    }
+
+    .art-card {
+      position: relative;
+
+      width: min(390px, 100%);
+      aspect-ratio: .86;
+
+      overflow: hidden;
+
+      border-radius: 28px;
+
+      background: #111;
+
+      border:
+        1px solid rgba(255,255,255,.1);
+
+      box-shadow:
+        0 45px 100px rgba(0,0,0,.65),
+        0 0 70px rgba(168,255,0,.04);
+
+      transform:
+        rotate(3deg);
+
+      transition:
+        transform .5s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .art-card:hover {
+      transform:
+        rotate(0deg)
+        translateY(-8px)
+        scale(1.015);
+    }
+
+    .art-card::after {
+      content: "";
+
+      position: absolute;
+      inset: 0;
 
       background:
-        rgba(255,255,255,.018);
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.08),
+          transparent 30%,
+          transparent 70%,
+          rgba(168,255,0,.06)
+        );
 
-      border: 1px solid var(--border);
-
-      transition: .25s ease;
+      pointer-events: none;
     }
 
-    .stat:hover {
-      transform: translateY(-2px);
-      border-color: var(--border-hover);
-      background: rgba(255,255,255,.028);
+    .art-image {
+      width: 100%;
+      height: 100%;
+
+      display: block;
+
+      object-fit: cover;
+
+      filter:
+        grayscale(.1)
+        contrast(1.03);
     }
 
-    .stat-value {
-      font-size: 17px;
+    .art-overlay {
+      position: absolute;
+
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+
+      padding: 14px 15px;
+
+      border-radius: 14px;
+
+      background:
+        rgba(5,6,5,.72);
+
+      border:
+        1px solid rgba(255,255,255,.1);
+
+      backdrop-filter: blur(18px);
+    }
+
+    .art-overlay-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 6px;
+    }
+
+    .art-title {
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: -.03em;
     }
 
-    .stat-label {
-      margin-top: 5px;
+    .art-live {
+      display: flex;
+      align-items: center;
+      gap: 5px;
 
-      color: var(--muted-2);
+      color: var(--green);
 
-      font-size: 10px;
+      font-family: "DM Mono", monospace;
+
+      font-size: 7px;
+      text-transform: uppercase;
     }
 
-    /* =========================
-       FEATURES
-    ========================== */
+    .art-live i {
+      width: 5px;
+      height: 5px;
 
-    .features {
+      border-radius: 50%;
+
+      background: var(--green);
+    }
+
+    .art-sub {
+      color: #737971;
+
+      font-size: 9px;
+    }
+
+    .logo-float {
+      position: absolute;
+
+      width: 88px;
+      height: 88px;
+
+      left: -24px;
+      bottom: 65px;
+
+      padding: 8px;
+
+      border-radius: 22px;
+
+      background:
+        rgba(5,6,5,.82);
+
+      border:
+        1px solid rgba(168,255,0,.2);
+
+      backdrop-filter: blur(15px);
+
+      box-shadow:
+        0 20px 40px rgba(0,0,0,.45),
+        0 0 30px rgba(168,255,0,.08);
+
+      transform:
+        rotate(-7deg);
+
+      z-index: 3;
+
+      animation:
+        logoFloat 5s ease-in-out infinite;
+    }
+
+    .logo-float img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      border-radius: 15px;
+    }
+
+    @keyframes logoFloat {
+      0%,100% {
+        transform:
+          translateY(0)
+          rotate(-7deg);
+      }
+
+      50% {
+        transform:
+          translateY(-8px)
+          rotate(-4deg);
+      }
+    }
+
+    /* =========================================================
+       LOWER SECTION
+    ========================================================= */
+
+    .section {
       padding:
-        100px 0
-        70px;
+        70px 0
+        100px;
     }
 
     .section-heading {
       text-align: center;
 
-      margin-bottom: 38px;
+      margin-bottom: 35px;
     }
 
     .section-heading small {
-      color: var(--accent);
+      color: var(--green);
 
       font-family: "DM Mono", monospace;
 
-      font-size: 9px;
+      font-size: 8px;
+
+      letter-spacing: .14em;
 
       text-transform: uppercase;
-      letter-spacing: .15em;
     }
 
     .section-heading h2 {
-      margin-top: 12px;
+      margin-top: 10px;
 
       font-size: 32px;
 
-      letter-spacing: -.045em;
+      letter-spacing: -.05em;
     }
 
     .section-heading p {
-      margin: 12px auto 0;
+      max-width: 510px;
 
-      max-width: 500px;
+      margin: 12px auto 0;
 
       color: var(--muted);
 
-      font-size: 13px;
-      line-height: 1.6;
+      font-size: 12px;
+
+      line-height: 1.7;
     }
 
-    .feature-grid {
+    .cards {
       display: grid;
 
       grid-template-columns:
-        repeat(3,1fr);
+        repeat(3, 1fr);
 
       gap: 12px;
     }
 
-    .feature {
-      min-height: 205px;
+    .card {
+      position: relative;
+
+      min-height: 190px;
 
       padding: 23px;
+
+      overflow: hidden;
 
       border-radius: 20px;
 
@@ -828,129 +1004,92 @@
           rgba(255,255,255,.012)
         );
 
-      border: 1px solid var(--border);
+      border:
+        1px solid var(--line);
 
       transition:
         transform .3s ease,
         border-color .3s ease,
         background .3s ease;
-
-      position: relative;
-      overflow: hidden;
     }
 
-    .feature::after {
-      content: "";
-
-      position: absolute;
-
-      width: 100px;
-      height: 100px;
-
-      right: -50px;
-      bottom: -50px;
-
-      border-radius: 50%;
-
-      background: var(--accent);
-
-      filter: blur(60px);
-
-      opacity: 0;
-
-      transition: .3s;
-    }
-
-    .feature:hover {
-      transform: translateY(-4px);
+    .card:hover {
+      transform: translateY(-5px);
 
       border-color:
-        rgba(140,255,102,.15);
+        rgba(168,255,0,.15);
 
       background:
         rgba(255,255,255,.045);
     }
 
-    .feature:hover::after {
-      opacity: .12;
+    .card-number {
+      color: var(--green);
+
+      font-family: "DM Mono", monospace;
+
+      font-size: 9px;
     }
 
-    .feature-icon {
-      width: 40px;
-      height: 40px;
+    .card h3 {
+      margin-top: 40px;
 
-      display: grid;
-      place-items: center;
-
-      border-radius: 12px;
-
-      background:
-        rgba(140,255,102,.07);
-
-      border: 1px solid
-        rgba(140,255,102,.1);
-
-      color: var(--accent);
-
-      margin-bottom: 22px;
-    }
-
-    .feature h3 {
       font-size: 14px;
-      margin-bottom: 9px;
     }
 
-    .feature p {
+    .card p {
+      margin-top: 9px;
+
       color: var(--muted);
 
-      font-size: 12px;
-      line-height: 1.65;
+      font-size: 11px;
+
+      line-height: 1.7;
     }
 
-    /* =========================
+    /* =========================================================
        FOOTER
-    ========================== */
+    ========================================================= */
 
     footer {
       width: min(1180px, calc(100% - 40px));
 
-      margin: 0 auto;
+      margin: auto;
 
       padding:
-        30px 0 40px;
+        28px 0
+        35px;
 
       border-top:
-        1px solid var(--border);
+        1px solid var(--line);
 
       display: flex;
-
       align-items: center;
       justify-content: space-between;
 
       color: var(--muted-2);
 
-      font-size: 10px;
+      font-size: 9px;
     }
 
-    .footer-brand {
-      font-weight: 700;
-      color: #777d85;
+    footer strong {
+      color: #70766e;
     }
 
-    /* =========================
-       LOADING
-    ========================== */
+    /* =========================================================
+       LOADER
+    ========================================================= */
 
     .loader {
-      width: 16px;
-      height: 16px;
+      width: 13px;
+      height: 13px;
 
       border-radius: 50%;
 
       border:
-        2px solid rgba(0,0,0,.2);
+        2px solid rgba(0,0,0,.18);
 
-      border-top-color: #071006;
+      border-top-color: #0a0d07;
 
       animation:
         spin .65s linear infinite;
@@ -962,36 +1101,108 @@
       }
     }
 
-    /* =========================
+    /* =========================================================
        RESPONSIVE
-    ========================== */
+    ========================================================= */
 
-    @media (max-width: 760px) {
+    @media (max-width: 900px) {
+
+      .hero {
+        grid-template-columns: 1fr;
+
+        gap: 50px;
+
+        padding-top: 45px;
+      }
+
+      .hero-copy {
+        text-align: center;
+      }
+
+      .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .resolver {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .visual-wrap {
+        min-height: 450px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
 
       .navbar {
-        width: min(100% - 28px, 1180px);
+        width: calc(100% - 28px);
       }
 
       main {
-        width: min(100% - 28px, 1180px);
+        width: calc(100% - 28px);
+      }
+
+      .nav-status {
+        display: none;
       }
 
       .hero {
         padding:
-          65px 0
-          50px;
+          45px 0
+          65px;
       }
 
       .hero h1 {
-        font-size: 44px;
+        font-size: 45px;
       }
 
-      .feature-grid {
-        grid-template-columns: 1fr;
+      .hero-description {
+        font-size: 13px;
       }
 
-      .stats {
-        grid-template-columns: 1fr;
+      .input-row {
+        flex-wrap: wrap;
+
+        padding: 8px;
+      }
+
+      .input-symbol {
+        display: none;
+      }
+
+      #urlInput {
+        flex-basis: 100%;
+
+        width: 100%;
+
+        padding:
+          0 9px;
+      }
+
+      #bypassBtn {
+        width: 100%;
+      }
+
+      .visual-wrap {
+        min-height: 390px;
+      }
+
+      .art-card {
+        width: min(330px, 88vw);
+      }
+
+      .logo-float {
+        left: 2px;
+        bottom: 45px;
+
+        width: 72px;
+        height: 72px;
       }
 
       .result-grid {
@@ -1003,57 +1214,13 @@
       }
 
       footer {
-        width: min(100% - 28px, 1180px);
-      }
-    }
+        width: calc(100% - 28px);
 
-    @media (max-width: 560px) {
+        flex-direction: column;
 
-      .nav-right .status {
-        display: none;
-      }
+        gap: 8px;
 
-      .hero h1 {
-        font-size: 40px;
-      }
-
-      .hero-description {
-        font-size: 13px;
-      }
-
-      .input-row {
-        flex-wrap: wrap;
-
-        padding:
-          8px;
-      }
-
-      .link-icon {
-        display: none;
-      }
-
-      #urlInput {
-        width: 100%;
-        flex-basis: 100%;
-
-        padding:
-          0 10px;
-      }
-
-      .bypass-btn {
-        width: 100%;
-      }
-
-      .tool-footer {
-        font-size: 9px;
-      }
-
-      .features {
-        padding-top: 70px;
-      }
-
-      .section-heading h2 {
-        font-size: 27px;
+        text-align: center;
       }
     }
 
@@ -1061,9 +1228,8 @@
       *,
       *::before,
       *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
+        animation: none !important;
+        transition: none !important;
       }
     }
   </style>
@@ -1071,31 +1237,41 @@
 
 <body>
 
+  <!-- =======================================================
+       BACKGROUND
+  ======================================================== -->
+
   <div class="background">
-    <div class="grid"></div>
-    <div class="orb one"></div>
-    <div class="orb two"></div>
+    <div class="background-grid"></div>
+    <div class="ambient one"></div>
+    <div class="ambient two"></div>
+    <div class="noise"></div>
   </div>
 
-  <!-- NAVBAR -->
+
+  <!-- =======================================================
+       NAVBAR
+  ======================================================== -->
 
   <nav class="navbar">
 
-    <a class="brand" href="#">
-      <div class="brand-mark">↗</div>
+    <a href="#" class="brand">
 
-      <div class="brand-name">
-        Bypass<span>.</span>SFL
+      <img
+        src="logo.png"
+        alt="BAIMLUAA"
+        class="brand-logo"
+      >
+
+      <div class="brand-text">
+        BAIMLUAA<span>.</span>
       </div>
+
     </a>
 
-    <div class="nav-right">
-
-      <div class="status">
-        <span class="status-dot"></span>
-        System Operational
-      </div>
-
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      System Operational
     </div>
 
   </nav>
@@ -1103,99 +1279,159 @@
 
   <main>
 
-    <!-- HERO -->
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
 
     <section class="hero">
 
-      <div class="eyebrow">
-        <i></i>
-        Fast Link Resolution
-      </div>
+      <div class="hero-copy">
 
-      <h1>
-        Your link.
-        <span>Resolved.</span>
-      </h1>
-
-      <p class="hero-description">
-        Masukkan link SFL dan biarkan sistem memproses
-        redirect secara otomatis. Cepat, sederhana,
-        tanpa interface yang ribet.
-      </p>
-
-    </section>
-
-
-    <!-- TOOL -->
-
-    <section class="tool-shell">
-
-      <div class="tool">
-
-        <div class="input-row">
-
-          <div class="link-icon">
-            ↗
-          </div>
-
-          <input
-            id="urlInput"
-            type="url"
-            autocomplete="off"
-            spellcheck="false"
-            placeholder="Paste your SFL link here..."
-            value="https://sfl.gl/dyktx"
-          />
-
-          <button
-            class="bypass-btn"
-            id="bypassBtn"
-          >
-            <span id="buttonText">
-              Resolve Link
-            </span>
-          </button>
-
+        <div class="eyebrow">
+          <span></span>
+          BAIMLUAA LINK SYSTEM
         </div>
 
-        <div class="tool-footer">
+        <h1>
+          Resolve links.
+          <br>
+          <span class="green">Skip the noise.</span>
+        </h1>
 
-          <span>
-            ENTER untuk memproses
-          </span>
+        <p class="hero-description">
+          Masukkan URL SFL yang ingin diproses.
+          Sistem akan menangani request melalui
+          backend dan mengembalikan destination
+          secara langsung.
+        </p>
 
-          <span>
-            SECURE REQUEST
-          </span>
 
-        </div>
+        <!-- =================================================
+             RESOLVER
+        ================================================== -->
 
-        <!-- RESULT -->
+        <div class="resolver">
 
-        <div
-          class="result-area"
-          id="resultArea"
-        >
+          <div class="resolver-box">
 
-          <div class="result-head">
+            <div class="input-row">
 
-            <div class="result-title">
-              Resolution Result
+              <div class="input-symbol">
+                ↗
+              </div>
+
+              <input
+                id="urlInput"
+                type="url"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="Paste SFL link here..."
+                value="https://sfl.gl/dyktx"
+              >
+
+              <button id="bypassBtn">
+
+                <span id="buttonText">
+                  Resolve
+                </span>
+
+              </button>
+
             </div>
+
+            <div class="resolver-meta">
+              <span>
+                Press ENTER to resolve
+              </span>
+
+              <span>
+                Server-side request
+              </span>
+            </div>
+
+
+            <!-- RESULT -->
 
             <div
-              class="badge"
-              id="statusBadge"
+              class="result"
+              id="resultArea"
             >
-              --
+
+              <div class="result-header">
+
+                <strong>
+                  Resolution Result
+                </strong>
+
+                <span
+                  id="statusBadge"
+                  class="badge"
+                >
+                  --
+                </span>
+
+              </div>
+
+              <div
+                class="result-grid"
+                id="resultContent"
+              ></div>
+
             </div>
 
           </div>
 
-          <div
-            class="result-grid"
-            id="resultContent"
-          ></div>
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           ARTWORK
+      ==================================================== -->
+
+      <div class="visual-wrap">
+
+        <div class="visual-glow"></div>
+
+        <div class="art-card" id="artCard">
+
+          <img
+            src="artwork.png"
+            alt="BAIMLUAA artwork"
+            class="art-image"
+          >
+
+          <div class="art-overlay">
+
+            <div class="art-overlay-top">
+
+              <div class="art-title">
+                BAIMLUAA
+              </div>
+
+              <div class="art-live">
+                <i></i>
+                Online
+              </div>
+
+            </div>
+
+            <div class="art-sub">
+              Link resolution infrastructure
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="logo-float">
+
+          <img
+            src="logo.png"
+            alt="BAIMLUAA Logo"
+          >
 
         </div>
 
@@ -1204,72 +1440,36 @@
     </section>
 
 
-    <!-- STATS -->
+    <!-- =====================================================
+         FEATURES
+    ====================================================== -->
 
-    <div class="stats">
-
-      <div class="stat">
-        <div class="stat-value">
-          &lt; 1s
-        </div>
-
-        <div class="stat-label">
-          Typical response
-        </div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-value">
-          SFL
-        </div>
-
-        <div class="stat-label">
-          Supported service
-        </div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-value">
-          API
-        </div>
-
-        <div class="stat-label">
-          Server-side processing
-        </div>
-      </div>
-
-    </div>
-
-
-    <!-- FEATURES -->
-
-    <section class="features">
+    <section class="section">
 
       <div class="section-heading">
 
         <small>
-          Built for speed
+          Why BAIMLUAA
         </small>
 
         <h2>
-          Simple on purpose.
+          Built to stay out of your way.
         </h2>
 
         <p>
-          Interface dibuat fokus ke satu hal:
-          memasukkan link dan mendapatkan hasil
-          dengan cepat.
+          Tampilan minimal, response jelas,
+          dan workflow yang langsung menuju hasil.
         </p>
 
       </div>
 
 
-      <div class="feature-grid">
+      <div class="cards">
 
-        <article class="feature">
+        <article class="card">
 
-          <div class="feature-icon">
-            ↯
+          <div class="card-number">
+            01 / SPEED
           </div>
 
           <h3>
@@ -1277,47 +1477,47 @@
           </h3>
 
           <p>
-            Request diproses langsung melalui
-            backend sehingga browser hanya
-            menangani interface dan hasil.
+            Request langsung diteruskan ke
+            endpoint backend tanpa proses
+            interface yang tidak diperlukan.
           </p>
 
         </article>
 
 
-        <article class="feature">
+        <article class="card">
 
-          <div class="feature-icon">
-            ◉
+          <div class="card-number">
+            02 / RESULT
           </div>
 
           <h3>
-            Clean Result
+            Clear Information
           </h3>
 
           <p>
-            Destination, alias, durasi dan
-            informasi request ditampilkan
-            dalam format yang mudah dibaca.
+            Destination, alias, elapsed time
+            dan status dipisahkan sehingga
+            hasil gampang dibaca.
           </p>
 
         </article>
 
 
-        <article class="feature">
+        <article class="card">
 
-          <div class="feature-icon">
-            ⌁
+          <div class="card-number">
+            03 / DESIGN
           </div>
 
           <h3>
-            Responsive
+            Minimal Interface
           </h3>
 
           <p>
-            Layout menyesuaikan desktop,
-            tablet dan mobile tanpa mengorbankan
-            tampilan interface.
+            Tidak ada puluhan tombol atau
+            elemen dekorasi yang mengganggu.
+            Fokus tetap pada resolver.
           </p>
 
         </article>
@@ -1329,18 +1529,27 @@
   </main>
 
 
+  <!-- =======================================================
+       FOOTER
+  ======================================================== -->
+
   <footer>
 
-    <div class="footer-brand">
-      Bypass.SFL
+    <div>
+      <strong>BAIMLUAA</strong>
+      · Link Resolver
     </div>
 
     <div>
-      Built by Baim · 2026
+      © 2026 BAIMLUAA
     </div>
 
   </footer>
 
+
+  <!-- =======================================================
+       JAVASCRIPT
+  ======================================================== -->
 
   <script>
 
@@ -1364,12 +1573,19 @@
       const statusBadge =
         document.getElementById("statusBadge");
 
+      const artCard =
+        document.getElementById("artCard");
+
+
+      /* =====================================================
+         ESCAPE HTML
+      ====================================================== */
 
       function escapeHtml(value) {
 
         if (
-          value === undefined ||
           value === null ||
+          value === undefined ||
           value === ""
         ) {
           return "-";
@@ -1385,12 +1601,16 @@
       }
 
 
-      function setLoading(loading) {
+      /* =====================================================
+         LOADING
+      ====================================================== */
+
+      function setLoading(isLoading) {
 
         bypassBtn.disabled =
-          loading;
+          isLoading;
 
-        if (loading) {
+        if (isLoading) {
 
           buttonText.innerHTML =
             `<span class="loader"></span>`;
@@ -1398,12 +1618,16 @@
         } else {
 
           buttonText.textContent =
-            "Resolve Link";
+            "Resolve";
 
         }
 
       }
 
+
+      /* =====================================================
+         RESULT
+      ====================================================== */
 
       function showResult(data) {
 
@@ -1412,15 +1636,17 @@
 
 
         resultArea.classList.add(
-          "visible"
+          "active"
         );
 
 
         statusBadge.className =
           "badge " +
-          (success
-            ? "success"
-            : "error");
+          (
+            success
+              ? "success"
+              : "error"
+          );
 
 
         statusBadge.textContent =
@@ -1483,6 +1709,7 @@
 
             </div>
 
+
             <div class="result-item full">
 
               <span class="result-label">
@@ -1497,6 +1724,7 @@
 
             </div>
 
+
             <div class="result-item">
 
               <span class="result-label">
@@ -1505,13 +1733,12 @@
 
               <div class="result-value">
                 ${escapeHtml(
-                  String(
-                    data.elapsed_ms ?? "-"
-                  )
+                  data.elapsed_ms ?? "-"
                 )} ms
               </div>
 
             </div>
+
 
             <div class="result-item">
 
@@ -1531,10 +1758,7 @@
 
           html += `
 
-            <div
-              class="result-item full"
-              style="border-color:rgba(255,101,119,.12)"
-            >
+            <div class="result-item full">
 
               <span class="result-label">
                 Error
@@ -1542,7 +1766,7 @@
 
               <div
                 class="result-value"
-                style="color:#ff6577"
+                style="color:#ff6878"
               >
                 ${escapeHtml(
                   data.message ||
@@ -1561,13 +1785,21 @@
           html;
 
 
-        resultArea.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest"
+        requestAnimationFrame(() => {
+
+          resultArea.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+          });
+
         });
 
       }
 
+
+      /* =====================================================
+         RESOLVE
+      ====================================================== */
 
       async function resolveLink() {
 
@@ -1578,16 +1810,6 @@
         if (!url) {
 
           urlInput.focus();
-
-          urlInput.style.border =
-            "1px solid rgba(255,101,119,.5)";
-
-          setTimeout(() => {
-
-            urlInput.style.border =
-              "";
-
-          }, 800);
 
           return;
 
@@ -1604,11 +1826,10 @@
 
             status: "error",
 
-            message:
-              "URL tidak valid.",
+            input_url: url,
 
-            input_url:
-              url
+            message:
+              "URL tidak valid."
 
           });
 
@@ -1617,12 +1838,12 @@
         }
 
 
-        setLoading(true);
-
-
         resultArea.classList.remove(
-          "visible"
+          "active"
         );
+
+
+        setLoading(true);
 
 
         try {
@@ -1648,6 +1869,7 @@
 
           let data;
 
+
           try {
 
             data =
@@ -1659,11 +1881,10 @@
 
               status: "error",
 
-              message:
-                "Server mengembalikan response yang tidak valid.",
+              input_url: url,
 
-              input_url:
-                url
+              message:
+                "Server mengembalikan response tidak valid."
 
             };
 
@@ -1672,20 +1893,21 @@
 
           showResult(data);
 
+
         } catch (error) {
 
           showResult({
 
             status: "error",
 
+            input_url: url,
+
             message:
               error.message ||
-              "Tidak dapat terhubung ke server.",
-
-            input_url:
-              url
+              "Tidak dapat terhubung ke server."
 
           });
+
 
         } finally {
 
@@ -1695,6 +1917,10 @@
 
       }
 
+
+      /* =====================================================
+         EVENTS
+      ====================================================== */
 
       bypassBtn.addEventListener(
         "click",
@@ -1720,14 +1946,9 @@
       );
 
 
-      /*
-       * Subtle mouse movement effect
-       * hanya desktop
-       */
-
-      const tool =
-        document.querySelector(".tool");
-
+      /* =====================================================
+         ART PARALLAX
+      ====================================================== */
 
       if (
         window.matchMedia(
@@ -1735,37 +1956,40 @@
         ).matches
       ) {
 
-        tool.addEventListener(
+        document.addEventListener(
           "mousemove",
           event => {
 
-            const rect =
-              tool.getBoundingClientRect();
-
             const x =
-              (event.clientX - rect.left)
-              / rect.width;
+              (
+                event.clientX /
+                window.innerWidth
+              ) - .5;
 
             const y =
-              (event.clientY - rect.top)
-              / rect.height;
+              (
+                event.clientY /
+                window.innerHeight
+              ) - .5;
 
 
-            tool.style.transform =
-              `perspective(1000px)
-               rotateX(${(0.5-y)*1.2}deg)
-               rotateY(${(x-0.5)*1.2}deg)`;
-
+            artCard.style.transform =
+              `
+              rotateY(${x * 5}deg)
+              rotateX(${y * -5}deg)
+              rotateZ(${x * 1.5}deg)
+              translateY(${y * -4}px)
+              `;
           }
         );
 
 
-        tool.addEventListener(
+        document.addEventListener(
           "mouseleave",
           () => {
 
-            tool.style.transform =
-              "";
+            artCard.style.transform =
+              "rotate(3deg)";
 
           }
         );
@@ -1777,4 +2001,4 @@
   </script>
 
 </body>
-        </html>
+</html>
