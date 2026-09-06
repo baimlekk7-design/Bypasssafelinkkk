@@ -3,39 +3,343 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bypass SFL</title>
+  <title>Bypass SFL — Premium</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet" />
   <style>
-    body { font-family: Arial, sans-serif; max-width: 700px; margin: 2rem auto; padding: 0 1rem; }
-    input, button { padding: 0.5rem; font-size: 1rem; }
-    input { width: 70%; }
-    button { width: 25%; background: #0070f3; color: white; border: none; border-radius: 4px; cursor: pointer; }
-    button:hover { background: #0051a2; }
-    pre { background: #f4f4f4; padding: 1rem; border-radius: 4px; overflow-x: auto; white-space: pre-wrap; }
-    .loading { opacity: 0.6; pointer-events: none; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 20% 20%, #0f0c29, #302b63, #24243e);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 1.5rem;
+      color: #fff;
+    }
+
+    .card {
+      max-width: 720px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 2.5rem;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 10px 20px -5px rgba(102, 126, 234, 0.4);
+    }
+
+    .header-text h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      background: linear-gradient(to right, #f6f9fc, #c7d2fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-text p {
+      font-size: 0.9rem;
+      opacity: 0.6;
+      margin-top: 0.1rem;
+      letter-spacing: 0.02em;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .input-group input {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.9rem 1.2rem;
+      border-radius: 60px;
+      border: none;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.25s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .input-group input::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .input-group input:focus {
+      border-color: #667eea;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+    }
+
+    .input-group button {
+      padding: 0.9rem 2.2rem;
+      border-radius: 60px;
+      border: none;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 10px 20px -8px rgba(102, 126, 234, 0.3);
+      white-space: nowrap;
+      letter-spacing: 0.01em;
+    }
+
+    .input-group button:hover {
+      transform: scale(1.02);
+      box-shadow: 0 15px 30px -8px rgba(102, 126, 234, 0.5);
+    }
+
+    .input-group button:active {
+      transform: scale(0.97);
+    }
+
+    .input-group button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .result-area {
+      margin-top: 2rem;
+      min-height: 100px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+    }
+
+    .result-area .placeholder {
+      opacity: 0.4;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 60px;
+    }
+
+    .result-area .placeholder i {
+      font-style: normal;
+      font-size: 1.2rem;
+    }
+
+    .result-content {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      word-break: break-all;
+    }
+
+    .result-content .label {
+      opacity: 0.5;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .result-content .value {
+      font-weight: 500;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.2rem 0.6rem;
+      border-radius: 30px;
+      display: inline-block;
+      margin-top: 0.2rem;
+    }
+
+    .result-content .destination {
+      color: #a78bfa;
+      word-break: break-all;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-top-color: #667eea;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.2rem 0.8rem;
+      border-radius: 60px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .status-success {
+      background: rgba(52, 211, 153, 0.2);
+      color: #6ee7b7;
+    }
+
+    .status-error {
+      background: rgba(251, 113, 133, 0.2);
+      color: #fb7185;
+    }
+
+    .footer-note {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.75rem;
+      opacity: 0.25;
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 1.5rem; }
+      .header-text h1 { font-size: 1.4rem; }
+      .input-group button { width: 100%; justify-content: center; }
+      .input-group input { min-width: unset; }
+    }
   </style>
 </head>
 <body>
-  <h1>🔗 Bypass SFL / Khaddavi</h1>
-  <div>
-    <input type="text" id="urlInput" placeholder="Masukkan URL SFL (contoh: https://sfl.gl/...)" value="https://sfl.gl/dyktx" />
-    <button id="bypassBtn">Bypass!</button>
-  </div>
-  <div id="result">
-    <p>Hasil akan muncul di sini...</p>
+
+<div class="card">
+  <div class="header">
+    <div class="header-icon">🔗</div>
+    <div class="header-text">
+      <h1>Bypass SFL</h1>
+      <p>Khaddavi · aman &amp; cepat</p>
+    </div>
   </div>
 
-  <script>
+  <div class="input-group">
+    <input type="text" id="urlInput" placeholder="https://sfl.gl/..." value="https://sfl.gl/dyktx" />
+    <button id="bypassBtn">Bypass</button>
+  </div>
+
+  <div class="result-area" id="resultArea">
+    <div class="placeholder" id="placeholder">
+      <i>⚡</i> Siap menerima link
+    </div>
+    <div id="resultContent" style="display: none;"></div>
+  </div>
+
+  <div class="footer-note">dibuat dengan · Baim</div>
+</div>
+
+<script>
+  (function() {
     const urlInput = document.getElementById('urlInput');
     const bypassBtn = document.getElementById('bypassBtn');
-    const resultDiv = document.getElementById('result');
+    const resultArea = document.getElementById('resultArea');
+    const placeholder = document.getElementById('placeholder');
+    const resultContent = document.getElementById('resultContent');
+
+    function showLoading() {
+      bypassBtn.disabled = true;
+      bypassBtn.textContent = '⏳';
+      placeholder.style.display = 'flex';
+      placeholder.innerHTML = `<span class="spinner"></span> Memproses...`;
+      resultContent.style.display = 'none';
+    }
+
+    function showResult(data) {
+      bypassBtn.disabled = false;
+      bypassBtn.textContent = 'Bypass';
+      placeholder.style.display = 'none';
+      resultContent.style.display = 'block';
+
+      const isSuccess = data.status === 'success';
+      const badge = isSuccess
+        ? `<span class="status-badge status-success">✓ sukses</span>`
+        : `<span class="status-badge status-error">✗ error</span>`;
+
+      let html = `
+        <div style="margin-bottom: 0.5rem;">${badge}</div>
+        <div><span class="label">Input</span><br><span class="value" style="font-size:0.8rem;">${escapeHtml(data.input_url || '-')}</span></div>
+        <div style="margin-top:0.8rem;"><span class="label">Alias</span><br><span class="value">${escapeHtml(data.alias || '-')}</span></div>
+      `;
+
+      if (isSuccess && data.destination) {
+        html += `
+          <div style="margin-top:0.8rem;">
+            <span class="label">Destination</span><br>
+            <span class="value destination">${escapeHtml(data.destination)}</span>
+          </div>
+          <div style="margin-top:0.8rem; display:flex; gap:1.2rem; flex-wrap:wrap;">
+            <div><span class="label">Durasi</span><br><span class="value">${escapeHtml(data.duration || '-')}</span></div>
+            <div><span class="label">Elapsed (ms)</span><br><span class="value">${escapeHtml(String(data.elapsed_ms || '-'))}</span></div>
+          </div>
+        `;
+      } else if (!isSuccess && data.message) {
+        html += `
+          <div style="margin-top:0.8rem; color:#fb7185;">
+            <span class="label">Pesan error</span><br>
+            <span class="value" style="color:#fb7185;">${escapeHtml(data.message)}</span>
+          </div>
+        `;
+      }
+
+      resultContent.innerHTML = html;
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '-';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
 
     bypassBtn.addEventListener('click', async () => {
       const url = urlInput.value.trim();
-      if (!url) return alert('Masukkan URL dulu!');
+      if (!url) {
+        alert('Masukkan URL SFL terlebih dahulu.');
+        return;
+      }
 
-      bypassBtn.classList.add('loading');
-      bypassBtn.textContent = '⏳ Memproses...';
-      resultDiv.innerHTML = '<p>⏳ Menunggu response dari server...</p>';
+      showLoading();
 
       try {
         const res = await fetch('/api/bypass', {
@@ -44,14 +348,21 @@
           body: JSON.stringify({ url })
         });
         const data = await res.json();
-        resultDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+        showResult(data);
       } catch (err) {
-        resultDiv.innerHTML = `<p style="color:red;">❌ Error: ${err.message}</p>`;
-      } finally {
-        bypassBtn.classList.remove('loading');
-        bypassBtn.textContent = 'Bypass!';
+        showResult({ status: 'error', message: err.message, input_url: url });
       }
     });
-  </script>
+
+    // Allow enter key
+    urlInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') bypassBtn.click();
+    });
+
+    // Initial placeholder
+    placeholder.innerHTML = `<i>⚡</i> Siap menerima link`;
+  })();
+</script>
+
 </body>
 </html>
