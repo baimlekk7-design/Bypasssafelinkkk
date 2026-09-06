@@ -1,8 +1,11 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }],
-  "functions": {
-    "api/bypass.js": {
-      "runtime": "nodejs20.x"
+  "builds": [
+    {
+      "src": "api/bypass.js",
+      "use": "@vercel/node"
     }
-  }
+  ],
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ]
 }
