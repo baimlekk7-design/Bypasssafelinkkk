@@ -16,17 +16,19 @@
   <style>
     :root {
       --bg: #080908;
-      --panel: #101210;
-      --panel-2: #141614;
-      --border: rgba(255,255,255,.08);
+      --surface: #101210;
+      --surface-hover: #141614;
 
-      --text: #f2f4ef;
-      --muted: #777c75;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.14);
 
-      --green: #a7ff00;
-      --green-dark: #83d900;
+      --text: #f3f5f0;
+      --muted: #747a72;
 
-      --red: #ff5f6d;
+      --green: #a8ff00;
+      --green-hover: #b8ff2b;
+
+      --red: #ff6874;
     }
 
     * {
@@ -41,20 +43,24 @@
 
     body {
       min-height: 100vh;
+      overflow-x: hidden;
 
       background:
         radial-gradient(
-          circle at 70% 20%,
-          rgba(167,255,0,.035),
-          transparent 30%
+          circle at 75% 35%,
+          rgba(168, 255, 0, 0.035),
+          transparent 28%
         ),
         var(--bg);
 
       color: var(--text);
+      font-family: "Inter", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
 
-      font-family: Inter, sans-serif;
-
-      overflow-x: hidden;
+    button,
+    input {
+      font: inherit;
     }
 
     /* =========================
@@ -62,37 +68,52 @@
     ========================= */
 
     header {
-      width: 100%;
-      height: 80px;
+      width: min(1180px, 88%);
+      height: 82px;
+
+      margin: auto;
 
       display: flex;
       align-items: center;
 
-      padding: 0 6vw;
+      animation: headerIn .7s cubic-bezier(.22,1,.36,1);
     }
 
-    .logo {
+    .brand {
       display: flex;
       align-items: center;
       gap: 10px;
 
-      color: white;
-
-      font-size: 14px;
-      font-weight: 700;
-
-      letter-spacing: -.03em;
+      user-select: none;
     }
 
-    .logo img {
-      width: 36px;
-      height: 36px;
+    .brand img {
+      width: 38px;
+      height: 38px;
+
+      display: block;
 
       object-fit: cover;
 
-      border-radius: 10px;
+      border-radius: 11px;
 
-      border: 1px solid rgba(167,255,0,.18);
+      border: 1px solid rgba(168, 255, 0, .16);
+
+      transition:
+        transform .3s ease,
+        border-color .3s ease;
+    }
+
+    .brand:hover img {
+      transform: rotate(-5deg) scale(1.04);
+      border-color: rgba(168, 255, 0, .35);
+    }
+
+    .brand span {
+      font-size: 13px;
+      font-weight: 700;
+
+      letter-spacing: -.025em;
     }
 
     /* =========================
@@ -100,148 +121,175 @@
     ========================= */
 
     main {
-      width: min(1100px, 88%);
-
-      min-height: calc(100vh - 130px);
+      width: min(1180px, 88%);
+      min-height: calc(100vh - 145px);
 
       margin: auto;
 
       display: grid;
-
-      grid-template-columns: 1fr 390px;
+      grid-template-columns: minmax(0, 1fr) 390px;
 
       align-items: center;
 
-      gap: 90px;
+      gap: 100px;
     }
 
     /* =========================
-       LEFT
+       RESOLVER
     ========================= */
 
-    .content {
-      animation: appear .7s ease both;
+    .resolver-area {
+      animation:
+        contentIn .8s cubic-bezier(.22,1,.36,1) both;
+
+      animation-delay: .08s;
     }
 
-    .content h1 {
-      font-size:
-        clamp(42px, 6vw, 68px);
+    .title {
+      font-size: clamp(46px, 6vw, 72px);
 
-      line-height: .95;
+      line-height: .92;
 
-      letter-spacing: -.065em;
+      letter-spacing: -.075em;
 
       font-weight: 700;
     }
 
-    .content h1 span {
+    .title span {
       color: var(--green);
     }
 
     .resolver {
-      margin-top: 38px;
-
       width: min(650px, 100%);
+
+      margin-top: 38px;
     }
 
-    .input-box {
+    .input-wrap {
       display: flex;
-
       align-items: center;
 
-      gap: 8px;
+      min-height: 58px;
 
       padding: 6px;
 
-      background: var(--panel);
+      background: rgba(16, 18, 16, .92);
 
       border: 1px solid var(--border);
 
       border-radius: 15px;
 
       transition:
-        border-color .2s ease,
-        box-shadow .2s ease;
+        border-color .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
     }
 
-    .input-box:focus-within {
+    .input-wrap:hover {
+      border-color: var(--border-hover);
+    }
+
+    .input-wrap:focus-within {
+      background: var(--surface-hover);
+
       border-color:
-        rgba(167,255,0,.3);
+        rgba(168, 255, 0, .28);
 
       box-shadow:
         0 0 0 4px
-        rgba(167,255,0,.035);
+        rgba(168, 255, 0, .035),
+        0 12px 35px
+        rgba(0, 0, 0, .18);
     }
 
-    .input-icon {
-      width: 40px;
-      height: 40px;
+    .input-symbol {
+      width: 43px;
+      height: 43px;
 
       flex-shrink: 0;
 
       display: grid;
       place-items: center;
 
-      color: var(--green);
+      color: var(--muted);
 
-      font-size: 15px;
+      font-size: 18px;
+
+      transition:
+        color .25s ease,
+        transform .25s ease;
+    }
+
+    .input-wrap:focus-within .input-symbol {
+      color: var(--green);
+      transform: translateX(1px);
     }
 
     #urlInput {
       flex: 1;
 
+      width: 100%;
       min-width: 0;
-
-      height: 42px;
+      height: 43px;
 
       padding: 0 5px;
 
-      border: none;
       outline: none;
+      border: 0;
 
       background: transparent;
 
-      color: white;
+      color: var(--text);
 
       font-size: 13px;
+      font-weight: 400;
     }
 
     #urlInput::placeholder {
-      color: #555a54;
+      color: #565c55;
+      transition: color .2s ease;
+    }
+
+    #urlInput:focus::placeholder {
+      color: #686e67;
     }
 
     #bypassBtn {
-      height: 42px;
+      min-width: 82px;
+      height: 43px;
 
-      padding: 0 20px;
+      padding: 0 17px;
 
-      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
+      border: 0;
       border-radius: 10px;
 
       background: var(--green);
+      color: #0a0c08;
 
-      color: #0b0d08;
-
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
 
       cursor: pointer;
 
       transition:
-        transform .18s ease,
-        background .18s ease,
-        box-shadow .18s ease;
+        transform .2s cubic-bezier(.22,1,.36,1),
+        background .2s ease,
+        box-shadow .2s ease,
+        opacity .2s ease;
     }
 
     #bypassBtn:hover {
-      background: #b5ff28;
-
-      box-shadow:
-        0 8px 25px
-        rgba(167,255,0,.13);
+      background: var(--green-hover);
 
       transform: translateY(-1px);
+
+      box-shadow:
+        0 8px 24px
+        rgba(168, 255, 0, .13);
     }
 
     #bypassBtn:active {
@@ -249,9 +297,39 @@
     }
 
     #bypassBtn:disabled {
-      opacity: .5;
       cursor: wait;
+      opacity: .65;
       transform: none;
+      box-shadow: none;
+    }
+
+    /* =========================
+       LOADER
+    ========================= */
+
+    .loader {
+      width: 15px;
+      height: 15px;
+
+      display: block;
+
+      border-radius: 50%;
+
+      border:
+        2px solid
+        rgba(10, 12, 8, .22);
+
+      border-top-color:
+        #0a0c08;
+
+      animation:
+        spin .65s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     /* =========================
@@ -261,33 +339,37 @@
     .result {
       display: none;
 
-      margin-top: 12px;
+      margin-top: 10px;
 
-      padding: 16px;
+      padding: 15px;
 
-      background: var(--panel);
+      background: rgba(16, 18, 16, .94);
 
       border: 1px solid var(--border);
 
       border-radius: 15px;
 
-      animation: resultIn .3s ease both;
+      animation:
+        resultIn .35s cubic-bezier(.22,1,.36,1) both;
     }
 
     .result.show {
       display: block;
     }
 
-    .result-top {
-      display: flex;
+    .result-head {
+      height: 24px;
 
+      display: flex;
       align-items: center;
       justify-content: space-between;
 
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
 
     .result-title {
+      color: #dce0da;
+
       font-size: 11px;
       font-weight: 600;
     }
@@ -300,65 +382,140 @@
       font-size: 8px;
       font-weight: 700;
 
+      letter-spacing: .04em;
       text-transform: uppercase;
     }
 
     .badge.success {
       color: var(--green);
-
-      background:
-        rgba(167,255,0,.07);
+      background: rgba(168, 255, 0, .07);
     }
 
     .badge.error {
       color: var(--red);
-
-      background:
-        rgba(255,95,109,.08);
+      background: rgba(255, 104, 116, .08);
     }
 
     .result-list {
       display: flex;
-
       flex-direction: column;
 
-      gap: 8px;
+      gap: 7px;
     }
 
     .result-row {
-      padding: 11px 12px;
+      padding: 10px 11px;
 
       background: rgba(255,255,255,.025);
 
       border-radius: 9px;
+
+      animation:
+        rowIn .3s ease both;
+    }
+
+    .result-row:nth-child(2) {
+      animation-delay: .03s;
+    }
+
+    .result-row:nth-child(3) {
+      animation-delay: .06s;
+    }
+
+    .result-row:nth-child(4) {
+      animation-delay: .09s;
     }
 
     .result-label {
       display: block;
 
-      margin-bottom: 5px;
+      margin-bottom: 4px;
 
-      color: var(--muted);
+      color: #646a63;
 
       font-size: 8px;
+      font-weight: 500;
+
+      letter-spacing: .07em;
 
       text-transform: uppercase;
-
-      letter-spacing: .08em;
     }
 
     .result-value {
-      color: #dce0da;
+      color: #d8ddd6;
 
       font-size: 11px;
 
       line-height: 1.5;
 
-      word-break: break-all;
+      word-break: break-word;
     }
 
     .destination {
       color: var(--green);
+    }
+
+    /* =========================
+       RESULT ACTIONS
+    ========================= */
+
+    .result-actions {
+      display: flex;
+
+      gap: 7px;
+
+      margin-top: 9px;
+    }
+
+    .result-action {
+      flex: 1;
+
+      height: 36px;
+
+      border: 1px solid var(--border);
+
+      border-radius: 9px;
+
+      background: transparent;
+
+      color: #9ba19a;
+
+      font-size: 10px;
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition:
+        background .2s ease,
+        color .2s ease,
+        border-color .2s ease,
+        transform .2s ease;
+    }
+
+    .result-action:hover {
+      background: rgba(255,255,255,.035);
+
+      color: white;
+
+      border-color:
+        var(--border-hover);
+
+      transform: translateY(-1px);
+    }
+
+    .result-action.primary {
+      color: #0a0c08;
+      background: var(--green);
+
+      border-color: var(--green);
+    }
+
+    .result-action.primary:hover {
+      background: var(--green-hover);
+
+      border-color: var(--green-hover);
+
+      color: #0a0c08;
     }
 
     /* =========================
@@ -369,50 +526,53 @@
       position: relative;
 
       display: flex;
-
       justify-content: center;
-
       align-items: center;
 
       animation:
-        visualIn .9s .1s ease both;
+        visualIn .9s cubic-bezier(.22,1,.36,1) both;
+
+      animation-delay: .15s;
     }
 
     .art {
       position: relative;
 
-      width: 100%;
-      max-width: 370px;
+      width: min(100%, 370px);
 
       aspect-ratio: 4 / 5;
 
       overflow: hidden;
 
-      border-radius: 24px;
+      border-radius: 22px;
 
       border: 1px solid var(--border);
 
       background: #111;
 
       box-shadow:
-        0 35px 80px
-        rgba(0,0,0,.5);
+        0 30px 80px
+        rgba(0,0,0,.42);
 
-      transform:
-        rotate(2deg);
+      transform: rotate(2deg);
+
+      animation:
+        artFloat 6s ease-in-out infinite;
 
       transition:
-        transform .5s ease,
+        transform .45s cubic-bezier(.22,1,.36,1),
         border-color .3s ease;
     }
 
     .art:hover {
+      animation-play-state: paused;
+
       transform:
         rotate(0deg)
         translateY(-5px);
 
       border-color:
-        rgba(167,255,0,.16);
+        rgba(168,255,0,.18);
     }
 
     .art img {
@@ -422,6 +582,13 @@
       display: block;
 
       object-fit: cover;
+
+      transition:
+        transform .8s cubic-bezier(.22,1,.36,1);
+    }
+
+    .art:hover img {
+      transform: scale(1.025);
     }
 
     .art::after {
@@ -435,58 +602,73 @@
 
       background:
         linear-gradient(
-          to bottom,
-          transparent 55%,
-          rgba(0,0,0,.25)
+          180deg,
+          rgba(0,0,0,0) 55%,
+          rgba(0,0,0,.16)
         );
     }
 
+    @keyframes artFloat {
+      0%, 100% {
+        transform:
+          translateY(0)
+          rotate(2deg);
+      }
+
+      50% {
+        transform:
+          translateY(-8px)
+          rotate(1deg);
+      }
+    }
+
     /* =========================
-       FLOATING LOGO
+       SMALL LOGO
     ========================= */
 
     .floating-logo {
       position: absolute;
 
-      left: -20px;
-      bottom: 25px;
+      left: -18px;
+      bottom: 23px;
 
-      width: 72px;
-      height: 72px;
+      width: 68px;
+      height: 68px;
 
       padding: 6px;
 
-      border-radius: 18px;
+      border-radius: 17px;
 
       background:
-        rgba(10,11,10,.9);
+        rgba(9, 10, 9, .94);
 
       border:
         1px solid
-        rgba(167,255,0,.18);
+        rgba(168,255,0,.16);
 
       box-shadow:
-        0 20px 40px
-        rgba(0,0,0,.45);
-
-      animation:
-        float 4s ease-in-out infinite;
+        0 18px 45px
+        rgba(0,0,0,.42);
 
       z-index: 2;
+
+      animation:
+        miniFloat 4.5s ease-in-out infinite;
     }
 
     .floating-logo img {
       width: 100%;
       height: 100%;
 
-      border-radius: 12px;
+      display: block;
 
       object-fit: cover;
+
+      border-radius: 11px;
     }
 
-    @keyframes float {
-
-      0%,100% {
+    @keyframes miniFloat {
+      0%, 100% {
         transform:
           translateY(0)
           rotate(-4deg);
@@ -494,10 +676,9 @@
 
       50% {
         transform:
-          translateY(-7px)
+          translateY(-6px)
           rotate(-2deg);
       }
-
     }
 
     /* =========================
@@ -505,68 +686,52 @@
     ========================= */
 
     footer {
-      width: 88%;
-
-      max-width: 1100px;
+      width: min(1180px, 88%);
 
       margin: auto;
 
-      padding: 25px 0;
+      padding: 22px 0;
 
-      color: #464b45;
+      color: #444941;
 
       font-size: 9px;
     }
 
     /* =========================
-       LOADER
+       ENTRANCE ANIMATIONS
     ========================= */
 
-    .loader {
-      width: 13px;
-      height: 13px;
-
-      border-radius: 50%;
-
-      border:
-        2px solid
-        rgba(0,0,0,.18);
-
-      border-top-color:
-        #0b0d08;
-
-      animation:
-        spin .65s linear infinite;
-    }
-
-    @keyframes spin {
-
-      to {
-        transform: rotate(360deg);
-      }
-
-    }
-
-    @keyframes appear {
-
+    @keyframes headerIn {
       from {
         opacity: 0;
-        transform: translateY(15px);
+        transform: translateY(-10px);
       }
 
       to {
         opacity: 1;
         transform: translateY(0);
       }
-
     }
 
-    @keyframes visualIn {
-
+    @keyframes contentIn {
       from {
         opacity: 0;
         transform:
-          translateX(20px);
+          translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform:
+          translateY(0);
+      }
+    }
+
+    @keyframes visualIn {
+      from {
+        opacity: 0;
+        transform:
+          translateX(25px);
       }
 
       to {
@@ -574,21 +739,36 @@
         transform:
           translateX(0);
       }
-
     }
 
     @keyframes resultIn {
-
       from {
         opacity: 0;
-        transform: translateY(7px);
+        transform:
+          translateY(8px)
+          scale(.99);
       }
 
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform:
+          translateY(0)
+          scale(1);
+      }
+    }
+
+    @keyframes rowIn {
+      from {
+        opacity: 0;
+        transform:
+          translateY(4px);
       }
 
+      to {
+        opacity: 1;
+        transform:
+          translateY(0);
+      }
     }
 
     /* =========================
@@ -598,22 +778,22 @@
     @media (max-width: 850px) {
 
       header {
-        padding: 0 6%;
+        height: 72px;
       }
 
       main {
-        width: 88%;
+        min-height: auto;
 
         grid-template-columns: 1fr;
 
-        gap: 55px;
+        gap: 60px;
 
         padding:
-          50px 0
-          70px;
+          65px 0
+          75px;
       }
 
-      .content {
+      .resolver-area {
         text-align: center;
       }
 
@@ -627,7 +807,7 @@
       }
 
       .art {
-        max-width: 310px;
+        width: min(310px, 80vw);
       }
 
       .floating-logo {
@@ -638,29 +818,34 @@
       footer {
         text-align: center;
       }
-
     }
 
     @media (max-width: 500px) {
 
-      .content h1 {
-        font-size: 43px;
+      main {
+        width: 88%;
+
+        padding-top: 45px;
       }
 
-      .input-box {
+      .title {
+        font-size: 46px;
+      }
+
+      .input-wrap {
         flex-wrap: wrap;
 
         padding: 7px;
       }
 
-      .input-icon {
+      .input-symbol {
         display: none;
       }
 
       #urlInput {
         flex-basis: 100%;
 
-        height: 44px;
+        height: 43px;
 
         padding: 0 10px;
       }
@@ -670,17 +855,16 @@
       }
 
       .art {
-        max-width: 280px;
+        width: min(280px, 78vw);
       }
 
       .floating-logo {
         left:
           calc(50% - 165px);
 
-        width: 62px;
-        height: 62px;
+        width: 60px;
+        height: 60px;
       }
-
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -700,7 +884,7 @@
 
   <header>
 
-    <div class="logo">
+    <div class="brand">
 
       <img
         src="logo.png"
@@ -716,9 +900,9 @@
 
   <main>
 
-    <section class="content">
+    <section class="resolver-area">
 
-      <h1>
+      <h1 class="title">
         Bypass<br>
         <span>SFL.</span>
       </h1>
@@ -726,9 +910,9 @@
 
       <div class="resolver">
 
-        <div class="input-box">
+        <div class="input-wrap">
 
-          <div class="input-icon">
+          <div class="input-symbol">
             ↗
           </div>
 
@@ -736,12 +920,15 @@
             id="urlInput"
             type="url"
             autocomplete="off"
+            autocapitalize="off"
             spellcheck="false"
             placeholder="Paste link..."
-            value="https://sfl.gl/dyktx"
           >
 
-          <button id="bypassBtn">
+          <button
+            id="bypassBtn"
+            type="button"
+          >
             <span id="buttonText">
               Bypass
             </span>
@@ -755,25 +942,51 @@
           id="resultArea"
         >
 
-          <div class="result-top">
+          <div class="result-head">
 
-            <div class="result-title">
+            <span class="result-title">
               Result
-            </div>
+            </span>
 
-            <div
+            <span
               id="statusBadge"
               class="badge"
             >
               --
-            </div>
+            </span>
 
           </div>
 
+
           <div
-            class="result-list"
             id="resultContent"
+            class="result-list"
           ></div>
+
+
+          <div
+            id="resultActions"
+            class="result-actions"
+            style="display:none"
+          >
+
+            <button
+              id="copyButton"
+              class="result-action"
+              type="button"
+            >
+              Copy
+            </button>
+
+            <button
+              id="openButton"
+              class="result-action primary"
+              type="button"
+            >
+              Open
+            </button>
+
+          </div>
 
         </div>
 
@@ -798,7 +1011,7 @@
 
         <img
           src="logo.png"
-          alt="BAIMLUAA"
+          alt=""
         >
 
       </div>
@@ -835,6 +1048,22 @@
       const badge =
         document.getElementById("statusBadge");
 
+      const actions =
+        document.getElementById("resultActions");
+
+      const copyButton =
+        document.getElementById("copyButton");
+
+      const openButton =
+        document.getElementById("openButton");
+
+
+      let destinationUrl = "";
+
+
+      /* =========================
+         ESCAPE HTML
+      ========================= */
 
       function escapeHtml(value) {
 
@@ -853,14 +1082,16 @@
           String(value);
 
         return div.innerHTML;
-
       }
 
 
-      function loading(state) {
+      /* =========================
+         LOADING
+      ========================= */
 
-        button.disabled =
-          state;
+      function setLoading(state) {
+
+        button.disabled = state;
 
         if (state) {
 
@@ -871,11 +1102,13 @@
 
           buttonText.textContent =
             "Bypass";
-
         }
-
       }
 
+
+      /* =========================
+         SHOW RESULT
+      ========================= */
 
       function showResult(data) {
 
@@ -883,9 +1116,14 @@
           data.status === "success";
 
 
-        result.classList.add(
-          "show"
-        );
+        result.classList.remove("show");
+
+        /*
+         * Restart animation.
+         */
+        void result.offsetWidth;
+
+        result.classList.add("show");
 
 
         badge.className =
@@ -901,6 +1139,12 @@
           success
             ? "Success"
             : "Error";
+
+
+        destinationUrl =
+          success
+            ? String(data.destination || "")
+            : "";
 
 
         let html = `
@@ -957,35 +1201,61 @@
 
             </div>
 
-            <div class="result-row">
-
-              <span class="result-label">
-                Duration
-              </span>
-
-              <div class="result-value">
-                ${escapeHtml(
-                  data.duration || "-"
-                )}
-              </div>
-
-            </div>
-
-            <div class="result-row">
-
-              <span class="result-label">
-                Elapsed
-              </span>
-
-              <div class="result-value">
-                ${escapeHtml(
-                  data.elapsed_ms ?? "-"
-                )} ms
-              </div>
-
-            </div>
-
           `;
+
+
+          if (
+            data.duration !== undefined &&
+            data.duration !== null
+          ) {
+
+            html += `
+
+              <div class="result-row">
+
+                <span class="result-label">
+                  Duration
+                </span>
+
+                <div class="result-value">
+                  ${escapeHtml(
+                    data.duration
+                  )}
+                </div>
+
+              </div>
+
+            `;
+          }
+
+
+          if (
+            data.elapsed_ms !== undefined &&
+            data.elapsed_ms !== null
+          ) {
+
+            html += `
+
+              <div class="result-row">
+
+                <span class="result-label">
+                  Elapsed
+                </span>
+
+                <div class="result-value">
+                  ${escapeHtml(
+                    data.elapsed_ms
+                  )} ms
+                </div>
+
+              </div>
+
+            `;
+          }
+
+
+          actions.style.display =
+            "flex";
 
         } else {
 
@@ -1003,6 +1273,7 @@
               >
                 ${escapeHtml(
                   data.message ||
+                  data.error ||
                   "Request failed."
                 )}
               </div>
@@ -1011,14 +1282,20 @@
 
           `;
 
+
+          actions.style.display =
+            "none";
         }
 
 
         resultContent.innerHTML =
           html;
-
       }
 
+
+      /* =========================
+         BYPASS
+      ========================= */
 
       async function bypass() {
 
@@ -1031,7 +1308,6 @@
           input.focus();
 
           return;
-
         }
 
 
@@ -1053,15 +1329,17 @@
           });
 
           return;
-
         }
 
 
-        loading(true);
+        setLoading(true);
 
         result.classList.remove(
           "show"
         );
+
+        actions.style.display =
+          "none";
 
 
         try {
@@ -1105,12 +1383,10 @@
                 "Response server tidak valid."
 
             };
-
           }
 
 
           showResult(data);
-
 
         } catch (error) {
 
@@ -1128,18 +1404,134 @@
 
         } finally {
 
-          loading(false);
-
+          setLoading(false);
         }
-
       }
 
 
-      button.addEventListener(
+      /* =========================
+         COPY
+      ========================= */
+
+      copyButton.addEventListener(
         "click",
-        bypass
+        async () => {
+
+          if (!destinationUrl) {
+            return;
+          }
+
+
+          try {
+
+            await navigator.clipboard.writeText(
+              destinationUrl
+            );
+
+
+            const oldText =
+              copyButton.textContent;
+
+
+            copyButton.textContent =
+              "Copied";
+
+
+            setTimeout(() => {
+
+              copyButton.textContent =
+                oldText;
+
+            }, 1200);
+
+          } catch {
+
+            /*
+             * Fallback untuk browser
+             * yang tidak mengizinkan
+             * Clipboard API.
+             */
+
+            const temp =
+              document.createElement(
+                "textarea"
+              );
+
+            temp.value =
+              destinationUrl;
+
+            document.body.appendChild(
+              temp
+            );
+
+            temp.select();
+
+            document.execCommand(
+              "copy"
+            );
+
+            temp.remove();
+
+
+            copyButton.textContent =
+              "Copied";
+
+
+            setTimeout(() => {
+
+              copyButton.textContent =
+                "Copy";
+
+            }, 1200);
+          }
+        }
       );
 
+
+      /* =========================
+         OPEN
+      ========================= */
+
+      openButton.addEventListener(
+        "click",
+        () => {
+
+          if (!destinationUrl) {
+            return;
+          }
+
+
+          try {
+
+            const safeUrl =
+              new URL(destinationUrl);
+
+
+            if (
+              safeUrl.protocol !== "http:" &&
+              safeUrl.protocol !== "https:"
+            ) {
+              return;
+            }
+
+
+            window.open(
+              safeUrl.href,
+              "_blank",
+              "noopener,noreferrer"
+            );
+
+          } catch {
+
+            return;
+          }
+        }
+      );
+
+
+      /* =========================
+         ENTER
+      ========================= */
 
       input.addEventListener(
         "keydown",
@@ -1152,10 +1544,18 @@
             event.preventDefault();
 
             bypass();
-
           }
-
         }
+      );
+
+
+      /* =========================
+         BUTTON
+      ========================= */
+
+      button.addEventListener(
+        "click",
+        bypass
       );
 
     })();
