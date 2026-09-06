@@ -4,39 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>BAIMLUAA — Link Resolver</title>
-  <meta
-    name="description"
-    content="BAIMLUAA Link Resolver — fast, clean and simple."
-  >
+  <title>BAIMLUAA</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   <link
-    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   >
 
   <style>
     :root {
-      --bg: #050605;
-      --bg-2: #080a08;
+      --bg: #080908;
+      --panel: #101210;
+      --panel-2: #141614;
+      --border: rgba(255,255,255,.08);
 
-      --green: #a8ff00;
-      --green-2: #75e900;
+      --text: #f2f4ef;
+      --muted: #777c75;
 
-      --white: #f5f7f3;
-      --text: #d9ddd5;
-      --muted: #777d75;
-      --muted-2: #50554f;
+      --green: #a7ff00;
+      --green-dark: #83d900;
 
-      --line: rgba(255,255,255,.075);
-      --line-green: rgba(168,255,0,.22);
-
-      --panel: rgba(13,16,13,.78);
-
-      --radius: 24px;
+      --red: #ff5f6d;
     }
 
     * {
@@ -51,438 +41,150 @@
 
     body {
       min-height: 100vh;
-      overflow-x: hidden;
-
-      color: var(--white);
-
-      font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
 
       background:
         radial-gradient(
-          circle at 70% -10%,
-          rgba(168,255,0,.08),
+          circle at 70% 20%,
+          rgba(167,255,0,.035),
           transparent 30%
         ),
-        radial-gradient(
-          circle at 0% 45%,
-          rgba(168,255,0,.035),
-          transparent 28%
-        ),
         var(--bg);
+
+      color: var(--text);
+
+      font-family: Inter, sans-serif;
+
+      overflow-x: hidden;
     }
 
-    /* =========================================================
-       BACKGROUND
-    ========================================================= */
+    /* =========================
+       HEADER
+    ========================= */
 
-    .background {
-      position: fixed;
-      inset: 0;
-      z-index: -10;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .background-grid {
-      position: absolute;
-      inset: 0;
-
-      background-image:
-        linear-gradient(
-          rgba(255,255,255,.018) 1px,
-          transparent 1px
-        ),
-        linear-gradient(
-          90deg,
-          rgba(255,255,255,.018) 1px,
-          transparent 1px
-        );
-
-      background-size: 52px 52px;
-
-      mask-image:
-        linear-gradient(
-          to bottom,
-          black 0%,
-          rgba(0,0,0,.7) 40%,
-          transparent 90%
-        );
-    }
-
-    .noise {
-      position: absolute;
-      inset: -100%;
-
-      opacity: .035;
-
-      background-image:
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
-
-      animation: noiseMove .35s steps(2) infinite;
-    }
-
-    @keyframes noiseMove {
-      0% {
-        transform: translate(0,0);
-      }
-
-      25% {
-        transform: translate(2%, -1%);
-      }
-
-      50% {
-        transform: translate(-1%, 2%);
-      }
-
-      75% {
-        transform: translate(1%, 1%);
-      }
-
-      100% {
-        transform: translate(-2%, -2%);
-      }
-    }
-
-    .ambient {
-      position: absolute;
-
-      width: 500px;
-      height: 500px;
-
-      border-radius: 50%;
-
-      background: var(--green);
-
-      filter: blur(150px);
-
-      opacity: .045;
-
-      animation:
-        ambientMove 13s ease-in-out infinite;
-    }
-
-    .ambient.one {
-      left: -250px;
-      top: 20%;
-    }
-
-    .ambient.two {
-      right: -300px;
-      top: 55%;
-
-      animation-delay: -6s;
-    }
-
-    @keyframes ambientMove {
-      0%, 100% {
-        transform: translate3d(0,0,0);
-      }
-
-      50% {
-        transform: translate3d(0,60px,0);
-      }
-    }
-
-    /* =========================================================
-       NAVBAR
-    ========================================================= */
-
-    .navbar {
-      width: min(1180px, calc(100% - 40px));
-
-      height: 82px;
-
-      margin: auto;
+    header {
+      width: 100%;
+      height: 80px;
 
       display: flex;
       align-items: center;
-      justify-content: space-between;
+
+      padding: 0 6vw;
     }
 
-    .brand {
+    .logo {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
 
       color: white;
-      text-decoration: none;
+
+      font-size: 14px;
+      font-weight: 700;
+
+      letter-spacing: -.03em;
     }
 
-    .brand-logo {
-      width: 40px;
-      height: 40px;
-
-      border-radius: 11px;
+    .logo img {
+      width: 36px;
+      height: 36px;
 
       object-fit: cover;
 
-      border:
-        1px solid rgba(168,255,0,.3);
+      border-radius: 10px;
 
-      box-shadow:
-        0 0 30px rgba(168,255,0,.08);
+      border: 1px solid rgba(167,255,0,.18);
     }
 
-    .brand-text {
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: -.025em;
-    }
-
-    .brand-text span {
-      color: var(--green);
-    }
-
-    .nav-status {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-
-      color: var(--muted);
-
-      font-family: "DM Mono", monospace;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-    }
-
-    .status-dot {
-      width: 6px;
-      height: 6px;
-
-      border-radius: 50%;
-
-      background: var(--green);
-
-      box-shadow:
-        0 0 0 4px rgba(168,255,0,.07),
-        0 0 14px rgba(168,255,0,.7);
-
-      animation: statusPulse 2s infinite;
-    }
-
-    @keyframes statusPulse {
-      0%,100% {
-        opacity: 1;
-      }
-
-      50% {
-        opacity: .35;
-      }
-    }
-
-    /* =========================================================
-       HERO
-    ========================================================= */
+    /* =========================
+       MAIN
+    ========================= */
 
     main {
-      width: min(1180px, calc(100% - 40px));
-      margin: auto;
-    }
+      width: min(1100px, 88%);
 
-    .hero {
-      min-height: 650px;
+      min-height: calc(100vh - 130px);
+
+      margin: auto;
 
       display: grid;
 
-      grid-template-columns:
-        minmax(0, 1.08fr)
-        minmax(350px, .92fr);
+      grid-template-columns: 1fr 390px;
 
       align-items: center;
 
-      gap: 70px;
-
-      padding:
-        65px 0
-        90px;
+      gap: 90px;
     }
 
-    .hero-copy {
-      position: relative;
-      z-index: 2;
+    /* =========================
+       LEFT
+    ========================= */
+
+    .content {
+      animation: appear .7s ease both;
     }
 
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-
-      padding: 7px 10px;
-
-      border-radius: 999px;
-
-      border: 1px solid var(--line);
-
-      background:
-        rgba(255,255,255,.025);
-
-      color: #969d94;
-
-      font-family: "DM Mono", monospace;
-      font-size: 9px;
-
-      letter-spacing: .1em;
-      text-transform: uppercase;
-
-      animation:
-        fadeUp .7s ease both;
-    }
-
-    .eyebrow span {
-      width: 5px;
-      height: 5px;
-
-      border-radius: 50%;
-
-      background: var(--green);
-
-      box-shadow:
-        0 0 10px var(--green);
-    }
-
-    .hero h1 {
-      max-width: 720px;
-
-      margin-top: 25px;
-
+    .content h1 {
       font-size:
-        clamp(48px, 6vw, 78px);
+        clamp(42px, 6vw, 68px);
 
-      line-height: .96;
+      line-height: .95;
 
-      letter-spacing: -.07em;
+      letter-spacing: -.065em;
 
-      font-weight: 800;
-
-      animation:
-        fadeUp .75s .08s ease both;
+      font-weight: 700;
     }
 
-    .hero h1 .green {
+    .content h1 span {
       color: var(--green);
-
-      text-shadow:
-        0 0 45px rgba(168,255,0,.12);
     }
-
-    .hero-description {
-      max-width: 540px;
-
-      margin-top: 26px;
-
-      color: var(--muted);
-
-      font-size: 14px;
-
-      line-height: 1.75;
-
-      animation:
-        fadeUp .75s .15s ease both;
-    }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(18px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* =========================================================
-       TOOL
-    ========================================================= */
 
     .resolver {
-      margin-top: 35px;
+      margin-top: 38px;
 
-      max-width: 690px;
-
-      animation:
-        fadeUp .8s .22s ease both;
+      width: min(650px, 100%);
     }
 
-    .resolver-box {
-      position: relative;
-
-      padding: 8px;
-
-      border-radius: 20px;
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,.055),
-          rgba(255,255,255,.015)
-        );
-
-      border: 1px solid var(--line);
-
-      box-shadow:
-        0 30px 70px rgba(0,0,0,.4);
-
-      transition:
-        border-color .3s ease,
-        box-shadow .3s ease;
-    }
-
-    .resolver-box:focus-within {
-      border-color: var(--line-green);
-
-      box-shadow:
-        0 30px 80px rgba(0,0,0,.45),
-        0 0 50px rgba(168,255,0,.035);
-    }
-
-    .input-row {
+    .input-box {
       display: flex;
+
       align-items: center;
 
-      gap: 10px;
+      gap: 8px;
 
-      padding:
-        7px 7px 7px 17px;
+      padding: 6px;
 
-      min-height: 64px;
+      background: var(--panel);
+
+      border: 1px solid var(--border);
 
       border-radius: 15px;
 
-      background:
-        rgba(0,0,0,.38);
-
-      border:
-        1px solid rgba(255,255,255,.04);
+      transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
     }
 
-    .input-symbol {
-      width: 32px;
-      height: 32px;
+    .input-box:focus-within {
+      border-color:
+        rgba(167,255,0,.3);
 
-      flex: 0 0 32px;
+      box-shadow:
+        0 0 0 4px
+        rgba(167,255,0,.035);
+    }
+
+    .input-icon {
+      width: 40px;
+      height: 40px;
+
+      flex-shrink: 0;
 
       display: grid;
       place-items: center;
 
-      border-radius: 9px;
-
       color: var(--green);
 
-      background:
-        rgba(168,255,0,.06);
-
-      border:
-        1px solid rgba(168,255,0,.1);
-
-      font-size: 14px;
+      font-size: 15px;
     }
 
     #urlInput {
@@ -490,152 +192,114 @@
 
       min-width: 0;
 
-      height: 46px;
+      height: 42px;
 
-      border: 0;
-      outline: 0;
+      padding: 0 5px;
+
+      border: none;
+      outline: none;
 
       background: transparent;
 
-      color: var(--white);
+      color: white;
 
       font-size: 13px;
     }
 
     #urlInput::placeholder {
-      color: #4f554f;
+      color: #555a54;
     }
 
     #bypassBtn {
-      height: 48px;
+      height: 42px;
 
-      padding: 0 22px;
+      padding: 0 20px;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border: none;
 
-      gap: 8px;
+      border-radius: 10px;
 
-      border-radius: 12px;
+      background: var(--green);
+
+      color: #0b0d08;
+
+      font-size: 12px;
+      font-weight: 700;
 
       cursor: pointer;
 
-      color: #0a0d07;
-
-      background:
-        linear-gradient(
-          135deg,
-          #c1ff65,
-          #7fe900
-        );
-
-      font-size: 12px;
-      font-weight: 800;
-
       transition:
-        transform .2s ease,
-        box-shadow .2s ease,
-        filter .2s ease;
+        transform .18s ease,
+        background .18s ease,
+        box-shadow .18s ease;
     }
 
     #bypassBtn:hover {
-      transform: translateY(-1px);
-
-      filter: brightness(1.05);
+      background: #b5ff28;
 
       box-shadow:
-        0 10px 35px rgba(168,255,0,.18);
+        0 8px 25px
+        rgba(167,255,0,.13);
+
+      transform: translateY(-1px);
     }
 
     #bypassBtn:active {
-      transform: scale(.97);
+      transform: scale(.96);
     }
 
     #bypassBtn:disabled {
+      opacity: .5;
       cursor: wait;
-      opacity: .55;
       transform: none;
     }
 
-    .resolver-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      padding:
-        10px 5px 2px;
-
-      color: var(--muted-2);
-
-      font-family: "DM Mono", monospace;
-      font-size: 8px;
-
-      text-transform: uppercase;
-      letter-spacing: .08em;
-    }
-
-    /* =========================================================
+    /* =========================
        RESULT
-    ========================================================= */
+    ========================= */
 
     .result {
       display: none;
 
       margin-top: 12px;
 
-      padding: 18px;
+      padding: 16px;
 
-      border-radius: 17px;
+      background: var(--panel);
 
-      background:
-        rgba(0,0,0,.28);
+      border: 1px solid var(--border);
 
-      border: 1px solid var(--line);
+      border-radius: 15px;
 
-      text-align: left;
-
-      animation:
-        resultShow .35s ease both;
+      animation: resultIn .3s ease both;
     }
 
-    .result.active {
+    .result.show {
       display: block;
     }
 
-    @keyframes resultShow {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .result-header {
+    .result-top {
       display: flex;
+
       align-items: center;
       justify-content: space-between;
 
-      margin-bottom: 15px;
+      margin-bottom: 14px;
     }
 
-    .result-header strong {
+    .result-title {
       font-size: 11px;
+      font-weight: 600;
     }
 
     .badge {
-      padding: 5px 9px;
+      padding: 4px 8px;
 
       border-radius: 999px;
 
       font-size: 8px;
-      font-weight: 800;
+      font-weight: 700;
 
-      letter-spacing: .08em;
       text-transform: uppercase;
     }
 
@@ -643,64 +307,48 @@
       color: var(--green);
 
       background:
-        rgba(168,255,0,.07);
-
-      border:
-        1px solid rgba(168,255,0,.13);
+        rgba(167,255,0,.07);
     }
 
     .badge.error {
-      color: #ff6878;
+      color: var(--red);
 
       background:
-        rgba(255,70,90,.07);
-
-      border:
-        1px solid rgba(255,70,90,.13);
+        rgba(255,95,109,.08);
     }
 
-    .result-grid {
-      display: grid;
+    .result-list {
+      display: flex;
 
-      grid-template-columns:
-        repeat(2, 1fr);
+      flex-direction: column;
 
       gap: 8px;
     }
 
-    .result-item {
-      padding: 12px;
+    .result-row {
+      padding: 11px 12px;
 
-      border-radius: 11px;
+      background: rgba(255,255,255,.025);
 
-      background:
-        rgba(255,255,255,.025);
-
-      border:
-        1px solid rgba(255,255,255,.04);
-    }
-
-    .result-item.full {
-      grid-column: 1 / -1;
+      border-radius: 9px;
     }
 
     .result-label {
       display: block;
 
-      margin-bottom: 6px;
+      margin-bottom: 5px;
 
-      color: var(--muted-2);
-
-      font-family: "DM Mono", monospace;
+      color: var(--muted);
 
       font-size: 8px;
 
-      letter-spacing: .08em;
       text-transform: uppercase;
+
+      letter-spacing: .08em;
     }
 
     .result-value {
-      color: #d8ddd6;
+      color: #dce0da;
 
       font-size: 11px;
 
@@ -709,376 +357,170 @@
       word-break: break-all;
     }
 
-    .result-value.destination {
+    .destination {
       color: var(--green);
     }
 
-    /* =========================================================
-       HERO ART
-    ========================================================= */
+    /* =========================
+       ARTWORK
+    ========================= */
 
-    .visual-wrap {
+    .visual {
       position: relative;
-
-      min-height: 500px;
 
       display: flex;
-      align-items: center;
+
       justify-content: center;
 
-      perspective: 1000px;
+      align-items: center;
 
       animation:
-        fadeUp .9s .2s ease both;
+        visualIn .9s .1s ease both;
     }
 
-    .visual-glow {
-      position: absolute;
-
-      width: 280px;
-      height: 280px;
-
-      border-radius: 50%;
-
-      background: var(--green);
-
-      filter: blur(120px);
-
-      opacity: .08;
-    }
-
-    .art-card {
+    .art {
       position: relative;
 
-      width: min(390px, 100%);
-      aspect-ratio: .86;
+      width: 100%;
+      max-width: 370px;
+
+      aspect-ratio: 4 / 5;
 
       overflow: hidden;
 
-      border-radius: 28px;
+      border-radius: 24px;
+
+      border: 1px solid var(--border);
 
       background: #111;
 
-      border:
-        1px solid rgba(255,255,255,.1);
-
       box-shadow:
-        0 45px 100px rgba(0,0,0,.65),
-        0 0 70px rgba(168,255,0,.04);
+        0 35px 80px
+        rgba(0,0,0,.5);
 
       transform:
-        rotate(3deg);
+        rotate(2deg);
 
       transition:
-        transform .5s cubic-bezier(.2,.8,.2,1);
+        transform .5s ease,
+        border-color .3s ease;
     }
 
-    .art-card:hover {
+    .art:hover {
       transform:
         rotate(0deg)
-        translateY(-8px)
-        scale(1.015);
+        translateY(-5px);
+
+      border-color:
+        rgba(167,255,0,.16);
     }
 
-    .art-card::after {
-      content: "";
-
-      position: absolute;
-      inset: 0;
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,.08),
-          transparent 30%,
-          transparent 70%,
-          rgba(168,255,0,.06)
-        );
-
-      pointer-events: none;
-    }
-
-    .art-image {
+    .art img {
       width: 100%;
       height: 100%;
 
       display: block;
 
       object-fit: cover;
-
-      filter:
-        grayscale(.1)
-        contrast(1.03);
     }
 
-    .art-overlay {
+    .art::after {
+      content: "";
+
       position: absolute;
 
-      left: 18px;
-      right: 18px;
-      bottom: 18px;
+      inset: 0;
 
-      padding: 14px 15px;
-
-      border-radius: 14px;
+      pointer-events: none;
 
       background:
-        rgba(5,6,5,.72);
-
-      border:
-        1px solid rgba(255,255,255,.1);
-
-      backdrop-filter: blur(18px);
+        linear-gradient(
+          to bottom,
+          transparent 55%,
+          rgba(0,0,0,.25)
+        );
     }
 
-    .art-overlay-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    /* =========================
+       FLOATING LOGO
+    ========================= */
 
-      margin-bottom: 6px;
-    }
-
-    .art-title {
-      font-size: 11px;
-      font-weight: 700;
-    }
-
-    .art-live {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-
-      color: var(--green);
-
-      font-family: "DM Mono", monospace;
-
-      font-size: 7px;
-      text-transform: uppercase;
-    }
-
-    .art-live i {
-      width: 5px;
-      height: 5px;
-
-      border-radius: 50%;
-
-      background: var(--green);
-    }
-
-    .art-sub {
-      color: #737971;
-
-      font-size: 9px;
-    }
-
-    .logo-float {
+    .floating-logo {
       position: absolute;
 
-      width: 88px;
-      height: 88px;
+      left: -20px;
+      bottom: 25px;
 
-      left: -24px;
-      bottom: 65px;
+      width: 72px;
+      height: 72px;
 
-      padding: 8px;
+      padding: 6px;
 
-      border-radius: 22px;
+      border-radius: 18px;
 
       background:
-        rgba(5,6,5,.82);
+        rgba(10,11,10,.9);
 
       border:
-        1px solid rgba(168,255,0,.2);
-
-      backdrop-filter: blur(15px);
+        1px solid
+        rgba(167,255,0,.18);
 
       box-shadow:
-        0 20px 40px rgba(0,0,0,.45),
-        0 0 30px rgba(168,255,0,.08);
-
-      transform:
-        rotate(-7deg);
-
-      z-index: 3;
+        0 20px 40px
+        rgba(0,0,0,.45);
 
       animation:
-        logoFloat 5s ease-in-out infinite;
+        float 4s ease-in-out infinite;
+
+      z-index: 2;
     }
 
-    .logo-float img {
+    .floating-logo img {
       width: 100%;
       height: 100%;
 
-      object-fit: cover;
+      border-radius: 12px;
 
-      border-radius: 15px;
+      object-fit: cover;
     }
 
-    @keyframes logoFloat {
+    @keyframes float {
+
       0%,100% {
         transform:
           translateY(0)
-          rotate(-7deg);
+          rotate(-4deg);
       }
 
       50% {
         transform:
-          translateY(-8px)
-          rotate(-4deg);
+          translateY(-7px)
+          rotate(-2deg);
       }
+
     }
 
-    /* =========================================================
-       LOWER SECTION
-    ========================================================= */
-
-    .section {
-      padding:
-        70px 0
-        100px;
-    }
-
-    .section-heading {
-      text-align: center;
-
-      margin-bottom: 35px;
-    }
-
-    .section-heading small {
-      color: var(--green);
-
-      font-family: "DM Mono", monospace;
-
-      font-size: 8px;
-
-      letter-spacing: .14em;
-
-      text-transform: uppercase;
-    }
-
-    .section-heading h2 {
-      margin-top: 10px;
-
-      font-size: 32px;
-
-      letter-spacing: -.05em;
-    }
-
-    .section-heading p {
-      max-width: 510px;
-
-      margin: 12px auto 0;
-
-      color: var(--muted);
-
-      font-size: 12px;
-
-      line-height: 1.7;
-    }
-
-    .cards {
-      display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 12px;
-    }
-
-    .card {
-      position: relative;
-
-      min-height: 190px;
-
-      padding: 23px;
-
-      overflow: hidden;
-
-      border-radius: 20px;
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,.035),
-          rgba(255,255,255,.012)
-        );
-
-      border:
-        1px solid var(--line);
-
-      transition:
-        transform .3s ease,
-        border-color .3s ease,
-        background .3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-
-      border-color:
-        rgba(168,255,0,.15);
-
-      background:
-        rgba(255,255,255,.045);
-    }
-
-    .card-number {
-      color: var(--green);
-
-      font-family: "DM Mono", monospace;
-
-      font-size: 9px;
-    }
-
-    .card h3 {
-      margin-top: 40px;
-
-      font-size: 14px;
-    }
-
-    .card p {
-      margin-top: 9px;
-
-      color: var(--muted);
-
-      font-size: 11px;
-
-      line-height: 1.7;
-    }
-
-    /* =========================================================
+    /* =========================
        FOOTER
-    ========================================================= */
+    ========================= */
 
     footer {
-      width: min(1180px, calc(100% - 40px));
+      width: 88%;
+
+      max-width: 1100px;
 
       margin: auto;
 
-      padding:
-        28px 0
-        35px;
+      padding: 25px 0;
 
-      border-top:
-        1px solid var(--line);
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      color: var(--muted-2);
+      color: #464b45;
 
       font-size: 9px;
     }
 
-    footer strong {
-      color: #70766e;
-    }
-
-    /* =========================================================
+    /* =========================
        LOADER
-    ========================================================= */
+    ========================= */
 
     .loader {
       width: 13px;
@@ -1087,41 +529,92 @@
       border-radius: 50%;
 
       border:
-        2px solid rgba(0,0,0,.18);
+        2px solid
+        rgba(0,0,0,.18);
 
-      border-top-color: #0a0d07;
+      border-top-color:
+        #0b0d08;
 
       animation:
         spin .65s linear infinite;
     }
 
     @keyframes spin {
+
       to {
         transform: rotate(360deg);
       }
+
     }
 
-    /* =========================================================
-       RESPONSIVE
-    ========================================================= */
+    @keyframes appear {
 
-    @media (max-width: 900px) {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
 
-      .hero {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+    }
+
+    @keyframes visualIn {
+
+      from {
+        opacity: 0;
+        transform:
+          translateX(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform:
+          translateX(0);
+      }
+
+    }
+
+    @keyframes resultIn {
+
+      from {
+        opacity: 0;
+        transform: translateY(7px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 850px) {
+
+      header {
+        padding: 0 6%;
+      }
+
+      main {
+        width: 88%;
+
         grid-template-columns: 1fr;
 
-        gap: 50px;
+        gap: 55px;
 
-        padding-top: 45px;
+        padding:
+          50px 0
+          70px;
       }
 
-      .hero-copy {
+      .content {
         text-align: center;
-      }
-
-      .hero-description {
-        margin-left: auto;
-        margin-right: auto;
       }
 
       .resolver {
@@ -1129,309 +622,158 @@
         margin-right: auto;
       }
 
-      .visual-wrap {
-        min-height: 450px;
+      .visual {
+        order: 2;
       }
 
-      .cards {
-        grid-template-columns: 1fr;
+      .art {
+        max-width: 310px;
       }
+
+      .floating-logo {
+        left:
+          calc(50% - 185px);
+      }
+
+      footer {
+        text-align: center;
+      }
+
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 500px) {
 
-      .navbar {
-        width: calc(100% - 28px);
+      .content h1 {
+        font-size: 43px;
       }
 
-      main {
-        width: calc(100% - 28px);
-      }
-
-      .nav-status {
-        display: none;
-      }
-
-      .hero {
-        padding:
-          45px 0
-          65px;
-      }
-
-      .hero h1 {
-        font-size: 45px;
-      }
-
-      .hero-description {
-        font-size: 13px;
-      }
-
-      .input-row {
+      .input-box {
         flex-wrap: wrap;
 
-        padding: 8px;
+        padding: 7px;
       }
 
-      .input-symbol {
+      .input-icon {
         display: none;
       }
 
       #urlInput {
         flex-basis: 100%;
 
-        width: 100%;
+        height: 44px;
 
-        padding:
-          0 9px;
+        padding: 0 10px;
       }
 
       #bypassBtn {
         width: 100%;
       }
 
-      .visual-wrap {
-        min-height: 390px;
+      .art {
+        max-width: 280px;
       }
 
-      .art-card {
-        width: min(330px, 88vw);
+      .floating-logo {
+        left:
+          calc(50% - 165px);
+
+        width: 62px;
+        height: 62px;
       }
 
-      .logo-float {
-        left: 2px;
-        bottom: 45px;
-
-        width: 72px;
-        height: 72px;
-      }
-
-      .result-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .result-item.full {
-        grid-column: auto;
-      }
-
-      footer {
-        width: calc(100% - 28px);
-
-        flex-direction: column;
-
-        gap: 8px;
-
-        text-align: center;
-      }
     }
 
     @media (prefers-reduced-motion: reduce) {
+
       *,
       *::before,
       *::after {
         animation: none !important;
         transition: none !important;
       }
+
     }
   </style>
 </head>
 
 <body>
 
-  <!-- =======================================================
-       BACKGROUND
-  ======================================================== -->
+  <header>
 
-  <div class="background">
-    <div class="background-grid"></div>
-    <div class="ambient one"></div>
-    <div class="ambient two"></div>
-    <div class="noise"></div>
-  </div>
-
-
-  <!-- =======================================================
-       NAVBAR
-  ======================================================== -->
-
-  <nav class="navbar">
-
-    <a href="#" class="brand">
+    <div class="logo">
 
       <img
         src="logo.png"
         alt="BAIMLUAA"
-        class="brand-logo"
       >
 
-      <div class="brand-text">
-        BAIMLUAA<span>.</span>
-      </div>
+      <span>BAIMLUAA</span>
 
-    </a>
-
-    <div class="nav-status">
-      <span class="status-dot"></span>
-      System Operational
     </div>
 
-  </nav>
+  </header>
 
 
   <main>
 
-    <!-- =====================================================
-         HERO
-    ====================================================== -->
+    <section class="content">
 
-    <section class="hero">
+      <h1>
+        Bypass<br>
+        <span>SFL.</span>
+      </h1>
 
-      <div class="hero-copy">
 
-        <div class="eyebrow">
-          <span></span>
-          BAIMLUAA LINK SYSTEM
+      <div class="resolver">
+
+        <div class="input-box">
+
+          <div class="input-icon">
+            ↗
+          </div>
+
+          <input
+            id="urlInput"
+            type="url"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Paste link..."
+            value="https://sfl.gl/dyktx"
+          >
+
+          <button id="bypassBtn">
+            <span id="buttonText">
+              Bypass
+            </span>
+          </button>
+
         </div>
 
-        <h1>
-          Resolve links.
-          <br>
-          <span class="green">Skip the noise.</span>
-        </h1>
 
-        <p class="hero-description">
-          Masukkan URL SFL yang ingin diproses.
-          Sistem akan menangani request melalui
-          backend dan mengembalikan destination
-          secara langsung.
-        </p>
+        <div
+          class="result"
+          id="resultArea"
+        >
 
+          <div class="result-top">
 
-        <!-- =================================================
-             RESOLVER
-        ================================================== -->
-
-        <div class="resolver">
-
-          <div class="resolver-box">
-
-            <div class="input-row">
-
-              <div class="input-symbol">
-                ↗
-              </div>
-
-              <input
-                id="urlInput"
-                type="url"
-                autocomplete="off"
-                spellcheck="false"
-                placeholder="Paste SFL link here..."
-                value="https://sfl.gl/dyktx"
-              >
-
-              <button id="bypassBtn">
-
-                <span id="buttonText">
-                  Resolve
-                </span>
-
-              </button>
-
+            <div class="result-title">
+              Result
             </div>
-
-            <div class="resolver-meta">
-              <span>
-                Press ENTER to resolve
-              </span>
-
-              <span>
-                Server-side request
-              </span>
-            </div>
-
-
-            <!-- RESULT -->
 
             <div
-              class="result"
-              id="resultArea"
+              id="statusBadge"
+              class="badge"
             >
-
-              <div class="result-header">
-
-                <strong>
-                  Resolution Result
-                </strong>
-
-                <span
-                  id="statusBadge"
-                  class="badge"
-                >
-                  --
-                </span>
-
-              </div>
-
-              <div
-                class="result-grid"
-                id="resultContent"
-              ></div>
-
+              --
             </div>
 
           </div>
 
-        </div>
-
-      </div>
-
-
-      <!-- ===================================================
-           ARTWORK
-      ==================================================== -->
-
-      <div class="visual-wrap">
-
-        <div class="visual-glow"></div>
-
-        <div class="art-card" id="artCard">
-
-          <img
-            src="artwork.png"
-            alt="BAIMLUAA artwork"
-            class="art-image"
-          >
-
-          <div class="art-overlay">
-
-            <div class="art-overlay-top">
-
-              <div class="art-title">
-                BAIMLUAA
-              </div>
-
-              <div class="art-live">
-                <i></i>
-                Online
-              </div>
-
-            </div>
-
-            <div class="art-sub">
-              Link resolution infrastructure
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="logo-float">
-
-          <img
-            src="logo.png"
-            alt="BAIMLUAA Logo"
-          >
+          <div
+            class="result-list"
+            id="resultContent"
+          ></div>
 
         </div>
 
@@ -1440,87 +782,24 @@
     </section>
 
 
-    <!-- =====================================================
-         FEATURES
-    ====================================================== -->
+    <section class="visual">
 
-    <section class="section">
+      <div class="art">
 
-      <div class="section-heading">
-
-        <small>
-          Why BAIMLUAA
-        </small>
-
-        <h2>
-          Built to stay out of your way.
-        </h2>
-
-        <p>
-          Tampilan minimal, response jelas,
-          dan workflow yang langsung menuju hasil.
-        </p>
+        <img
+          src="artwork.png"
+          alt=""
+        >
 
       </div>
 
 
-      <div class="cards">
+      <div class="floating-logo">
 
-        <article class="card">
-
-          <div class="card-number">
-            01 / SPEED
-          </div>
-
-          <h3>
-            Fast Resolution
-          </h3>
-
-          <p>
-            Request langsung diteruskan ke
-            endpoint backend tanpa proses
-            interface yang tidak diperlukan.
-          </p>
-
-        </article>
-
-
-        <article class="card">
-
-          <div class="card-number">
-            02 / RESULT
-          </div>
-
-          <h3>
-            Clear Information
-          </h3>
-
-          <p>
-            Destination, alias, elapsed time
-            dan status dipisahkan sehingga
-            hasil gampang dibaca.
-          </p>
-
-        </article>
-
-
-        <article class="card">
-
-          <div class="card-number">
-            03 / DESIGN
-          </div>
-
-          <h3>
-            Minimal Interface
-          </h3>
-
-          <p>
-            Tidak ada puluhan tombol atau
-            elemen dekorasi yang mengganggu.
-            Fokus tetap pada resolver.
-          </p>
-
-        </article>
+        <img
+          src="logo.png"
+          alt="BAIMLUAA"
+        >
 
       </div>
 
@@ -1529,57 +808,33 @@
   </main>
 
 
-  <!-- =======================================================
-       FOOTER
-  ======================================================== -->
-
   <footer>
-
-    <div>
-      <strong>BAIMLUAA</strong>
-      · Link Resolver
-    </div>
-
-    <div>
-      © 2026 BAIMLUAA
-    </div>
-
+    BAIMLUAA
   </footer>
 
-
-  <!-- =======================================================
-       JAVASCRIPT
-  ======================================================== -->
 
   <script>
 
     (() => {
 
-      const urlInput =
+      const input =
         document.getElementById("urlInput");
 
-      const bypassBtn =
+      const button =
         document.getElementById("bypassBtn");
 
       const buttonText =
         document.getElementById("buttonText");
 
-      const resultArea =
+      const result =
         document.getElementById("resultArea");
 
       const resultContent =
         document.getElementById("resultContent");
 
-      const statusBadge =
+      const badge =
         document.getElementById("statusBadge");
 
-      const artCard =
-        document.getElementById("artCard");
-
-
-      /* =====================================================
-         ESCAPE HTML
-      ====================================================== */
 
       function escapeHtml(value) {
 
@@ -1598,19 +853,16 @@
           String(value);
 
         return div.innerHTML;
+
       }
 
 
-      /* =====================================================
-         LOADING
-      ====================================================== */
+      function loading(state) {
 
-      function setLoading(isLoading) {
+        button.disabled =
+          state;
 
-        bypassBtn.disabled =
-          isLoading;
-
-        if (isLoading) {
+        if (state) {
 
           buttonText.innerHTML =
             `<span class="loader"></span>`;
@@ -1618,16 +870,12 @@
         } else {
 
           buttonText.textContent =
-            "Resolve";
+            "Bypass";
 
         }
 
       }
 
-
-      /* =====================================================
-         RESULT
-      ====================================================== */
 
       function showResult(data) {
 
@@ -1635,12 +883,12 @@
           data.status === "success";
 
 
-        resultArea.classList.add(
-          "active"
+        result.classList.add(
+          "show"
         );
 
 
-        statusBadge.className =
+        badge.className =
           "badge " +
           (
             success
@@ -1649,7 +897,7 @@
           );
 
 
-        statusBadge.textContent =
+        badge.textContent =
           success
             ? "Success"
             : "Error";
@@ -1657,10 +905,10 @@
 
         let html = `
 
-          <div class="result-item full">
+          <div class="result-row">
 
             <span class="result-label">
-              Input URL
+              Input
             </span>
 
             <div class="result-value">
@@ -1671,7 +919,7 @@
 
           </div>
 
-          <div class="result-item">
+          <div class="result-row">
 
             <span class="result-label">
               Alias
@@ -1695,22 +943,7 @@
 
           html += `
 
-            <div class="result-item">
-
-              <span class="result-label">
-                Duration
-              </span>
-
-              <div class="result-value">
-                ${escapeHtml(
-                  data.duration || "-"
-                )}
-              </div>
-
-            </div>
-
-
-            <div class="result-item full">
+            <div class="result-row">
 
               <span class="result-label">
                 Destination
@@ -1724,8 +957,21 @@
 
             </div>
 
+            <div class="result-row">
 
-            <div class="result-item">
+              <span class="result-label">
+                Duration
+              </span>
+
+              <div class="result-value">
+                ${escapeHtml(
+                  data.duration || "-"
+                )}
+              </div>
+
+            </div>
+
+            <div class="result-row">
 
               <span class="result-label">
                 Elapsed
@@ -1739,26 +985,13 @@
 
             </div>
 
-
-            <div class="result-item">
-
-              <span class="result-label">
-                Status
-              </span>
-
-              <div class="result-value">
-                Resolution completed
-              </div>
-
-            </div>
-
           `;
 
         } else {
 
           html += `
 
-            <div class="result-item full">
+            <div class="result-row">
 
               <span class="result-label">
                 Error
@@ -1766,7 +999,7 @@
 
               <div
                 class="result-value"
-                style="color:#ff6878"
+                style="color:var(--red)"
               >
                 ${escapeHtml(
                   data.message ||
@@ -1784,32 +1017,18 @@
         resultContent.innerHTML =
           html;
 
-
-        requestAnimationFrame(() => {
-
-          resultArea.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest"
-          });
-
-        });
-
       }
 
 
-      /* =====================================================
-         RESOLVE
-      ====================================================== */
-
-      async function resolveLink() {
+      async function bypass() {
 
         const url =
-          urlInput.value.trim();
+          input.value.trim();
 
 
         if (!url) {
 
-          urlInput.focus();
+          input.focus();
 
           return;
 
@@ -1838,12 +1057,11 @@
         }
 
 
-        resultArea.classList.remove(
-          "active"
+        loading(true);
+
+        result.classList.remove(
+          "show"
         );
-
-
-        setLoading(true);
 
 
         try {
@@ -1884,7 +1102,7 @@
               input_url: url,
 
               message:
-                "Server mengembalikan response tidak valid."
+                "Response server tidak valid."
 
             };
 
@@ -1904,31 +1122,26 @@
 
             message:
               error.message ||
-              "Tidak dapat terhubung ke server."
+              "Gagal terhubung ke server."
 
           });
 
-
         } finally {
 
-          setLoading(false);
+          loading(false);
 
         }
 
       }
 
 
-      /* =====================================================
-         EVENTS
-      ====================================================== */
-
-      bypassBtn.addEventListener(
+      button.addEventListener(
         "click",
-        resolveLink
+        bypass
       );
 
 
-      urlInput.addEventListener(
+      input.addEventListener(
         "keydown",
         event => {
 
@@ -1938,63 +1151,12 @@
 
             event.preventDefault();
 
-            resolveLink();
+            bypass();
 
           }
 
         }
       );
-
-
-      /* =====================================================
-         ART PARALLAX
-      ====================================================== */
-
-      if (
-        window.matchMedia(
-          "(pointer:fine)"
-        ).matches
-      ) {
-
-        document.addEventListener(
-          "mousemove",
-          event => {
-
-            const x =
-              (
-                event.clientX /
-                window.innerWidth
-              ) - .5;
-
-            const y =
-              (
-                event.clientY /
-                window.innerHeight
-              ) - .5;
-
-
-            artCard.style.transform =
-              `
-              rotateY(${x * 5}deg)
-              rotateX(${y * -5}deg)
-              rotateZ(${x * 1.5}deg)
-              translateY(${y * -4}px)
-              `;
-          }
-        );
-
-
-        document.addEventListener(
-          "mouseleave",
-          () => {
-
-            artCard.style.transform =
-              "rotate(3deg)";
-
-          }
-        );
-
-      }
 
     })();
 
